@@ -29,11 +29,13 @@ gameScene.create = function () {
   this.player.setCollideWorldBounds(true);
   this.player.body.gravity.y = 0; // Disable gravity for falling
   this.physics.add.collider(this.player, layer);
-  gameScene.scoreText = this.add.text(16, 15, 'Score: 0', 
-  { fontSize: '32px', 
-  fill: '#ffffff',
-  backgroundColor: '#000000', 
-  padding: 3 });
+  gameScene.scoreText = this.add.text(16, 15, 'Score: 0',
+    {
+      fontSize: '32px',
+      fill: '#ffffff',
+      backgroundColor: '#000000',
+      padding: 3
+    });
 
 
   this.anims.create({
