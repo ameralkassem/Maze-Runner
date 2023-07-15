@@ -87,6 +87,37 @@ gameScene.create = function () {
   // Add collision between the stars and the map layer
   this.physics.add.collider(this.stars, layer);
 
+
+
+  // Set the time limit (in milliseconds)
+  const timeLimit = 60000; // 60 seconds
+
+  // Start the timer
+  const timer = this.time.addEvent({
+    delay: timeLimit,
+    callback: this.redirectToLandingPage,
+    callbackScope: this,
+  });
+
+  // Display the timer text
+  this.timerText = this.add.text(
+    200,
+    15,
+    "Time Limit: " + formatTime(timeLimit),
+    {
+      fontSize: "32px",
+      fill: "#ffffff",
+      backgroundColor: "#000000",
+      padding: 3,
+    }
+  );
+
+  // Update the timer text every frame
+  this.updateTimer = () => {
+    const remainingTime = Math.max(timeLimit - timer.getElapsed(), 0);
+    this.timerText.setText("Time: " + formatTime(remainingTime));
+  };
+
 };
 
 gameScene.createStars = function () {
@@ -162,6 +193,26 @@ gameScene.update = function (time, delta) {
 
   // Check for collision between the player and stars
   this.physics.overlap(this.player, this.stars, this.collectStar, null, this);
+
+
+  // Call the updateTimer function every frame
+  this.updateTimer();
+
+};
+
+function formatTime(milliseconds) {
+  const minutes = Math.floor(milliseconds / 60000);
+  const seconds = Math.floor((milliseconds % 60000) / 1000);
+  return (
+    minutes.toString().padStart(2, "0") +
+    ":" +
+    seconds.toString().padStart(2, "0")
+  );
+}
+
+gameScene.redirectToLandingPage = function () {
+  // Redirect to the landing page
+  window.location.href = "index.html";
 };
 
 gameScene.collectStar = function (player, star) {
