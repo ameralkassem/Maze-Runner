@@ -15,6 +15,57 @@ gameScene.preload = function () {
   // Load cup image
   this.load.image("cup", "cup.png");
 };
+gameScene.create = function () {
+  const map = this.make.tilemap({ key: "wallmap" });
+  const tileset = map.addTilesetImage("map", "myTileset-image");
+  const layer = map.createStaticLayer("wall", tileset, 0, 0);
+  layer.setCollisionByExclusion(-1, true);
+
+  this.player = this.physics.add.sprite(0, 20, "player");
+  this.player.setBounce(0.1);
+  this.player.setCollideWorldBounds(true);
+  this.player.body.gravity.y = 0; // Disable gravity for falling
+
+  this.physics.add.collider(this.player, layer);
+
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 7,
+      end: 4,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 8,
+      end: 11,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "stop",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 0,
+      end: 0,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.cursors = this.input.keyboard.createCursorKeys();
+
+  // Jump parameters
+  this.jumpForce = 300;
+  this.isJumping = false;
+
+
+};
 
 
 gameScene.update = function (time, delta) {
