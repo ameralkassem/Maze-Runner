@@ -2,6 +2,7 @@ let gameScene = new Phaser.Scene("Game");
 gameScene.preload = function() {
     this.load.image("wall-image","assets/wall-images.png");
     this.load.image("player","assets/player-front.png");
+    this.load.image("cup","assets/cup.png");
     this.load.spritesheet("gamepieces","assets/player-pieces.png", {
         frameWidth : 60,
         frameHeight : 65
@@ -20,6 +21,14 @@ gameScene.create = function() {
     this.player.setCollideWorldBounds(true);
     //this.player.body.allowGravity = false;
     this.physics.add.collider(this.player,floor_layer);
+    this.se_cup = this.physics.add.sprite(1250,750,"cup");
+    this.se_cup.setImmovable(true);
+    this.se_cup.setScale(0.2,0.18);
+    this.se_cup.setCollideWorldBounds(true);
+
+    this.physics.add.collider(this.player,this.se_cup,this.nextLevel,null,this);
+    this.physics.add.collider(this.se_cup,floor_layer);
+    
 
     this.anims.create({
         key : "left",
@@ -85,7 +94,17 @@ gameScene.update = function() {
         this.player.setVelocityY(0);
         this.player.anims.stop();
     }
+    if (
+        Math.abs(this.player.x - this.destinationX) < 5 &&
+        Math.abs(this.player.y - this.destinationY) < 5
+    ) {
+        this.nextLevel();
+    }
 };
+gameScene.nextLevel = function() {
+    this.scene.stop();
+    this.scene.start("NextLevelScene");
+}
 
 const config = {
     type : Phaser.AUTO,
