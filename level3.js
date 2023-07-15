@@ -28,6 +28,44 @@ gameScene.create = function () {
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
   this.physics.add.collider(this.player, floor_layer);
+
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 7,
+      end: 4,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 8,
+      end: 11,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "up",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 12,
+      end: 15,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "down",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 0,
+      end: 3,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
 };
 
 let config = {
