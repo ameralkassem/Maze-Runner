@@ -63,7 +63,14 @@ gameScene.create = function () {
   // Jump parameters
   this.jumpForce = 300;
   this.isJumping = false;
+  // Add an object that triggers the next level or scene
+  this.triggerObject = this.physics.add.sprite(1000, 400, "cup"); // Use the cup image as the sprite for the trigger object
+  this.triggerObject.setImmovable(true); // Make the trigger object immovable
+  this.triggerObject.setCollideWorldBounds(true); // Keep the trigger object within the world bounds
+  this.triggerObject.setDisplaySize(130, 130); // Set the width and height of the cup image
 
+  this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
+  this.physics.add.collider(this.triggerObject, layer); // Add collision between the trigger object and the map layer
 
 };
 
