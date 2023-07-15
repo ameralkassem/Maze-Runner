@@ -20,8 +20,39 @@ gameScene.create = function() {
     this.player.setCollideWorldBounds(true);
     this.physics.add.collider(this.player,floor_layer);
 
+    this.anims.create({
+        key : "left",
+        frames: this.anims.generateFrameNumbers("gamepieces", {
+            start: 7,
+            end: 4,
+        }),
+        frameRate: 10,
+        repeat : -1,
+    });
 
-}
+    this.anims.create({
+        key : "right",
+        frames : this.anims.generateFrameNumbers("gamepieces", {
+            start : 8,
+            end : 11,
+        }),
+        frameRate : 10,
+        repeat : -1,
+    });
+
+    this.anims.create({
+        key : "stop",
+        frames : this.anims.generateFrameNumbers("gamepieces",{
+            start : 0,
+            end : 0,
+        }),
+        frameRate : 10,
+        repeat : -1,
+    });
+
+    this.cursors = this.input.keyboard.createCursorKeys();
+};
+
 const config = {
     type : Phaser.AUTO,
     width : 1280,
