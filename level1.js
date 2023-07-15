@@ -37,6 +37,8 @@ gameScene.create = function () {
     repeat: -1,
   });
 
+
+
   this.anims.create({
     key: "right",
     frames: this.anims.generateFrameNumbers("gamePiece", {
