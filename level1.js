@@ -1,11 +1,14 @@
 // Create a new scene
 let gameScene = new Phaser.Scene("Game");
+gameScene.score = 0;
 
 gameScene.preload = function () {
   // Load images
-  this.load.image("myTileset-image", "level1taler.png");
-  this.load.image("player", "front-2.png");
-  this.load.spritesheet("gamePiece", "all.png", {
+  this.load.image("myTileset-image", "assets/images/level1taler.png");
+  this.load.image("star", "assets/images/star.png");
+  this.load.image("player", "assets/images/front-2.png");
+  this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
+  this.load.spritesheet("gamePiece", "assets/images/all.png", {
     frameWidth: 60,
     frameHeight: 65,
   });
@@ -13,7 +16,7 @@ gameScene.preload = function () {
   // Load tilemap in JSON format
   this.load.tilemapTiledJSON("wallmap", "level-1-scene.json");
   // Load cup image
-  this.load.image("cup", "cup.png");
+  this.load.image("cup", "assets/images/cup.png");
 };
 gameScene.create = function () {
   const map = this.make.tilemap({ key: "wallmap" });
@@ -25,8 +28,13 @@ gameScene.create = function () {
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
   this.player.body.gravity.y = 0; // Disable gravity for falling
-
   this.physics.add.collider(this.player, layer);
+  gameScene.scoreText = this.add.text(16, 15, 'Score: 0', 
+  { fontSize: '32px', 
+  fill: '#ffffff',
+  backgroundColor: '#000000', 
+  padding: 3 });
+
 
   this.anims.create({
     key: "left",
@@ -72,7 +80,37 @@ gameScene.create = function () {
   this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
   this.physics.add.collider(this.triggerObject, layer); // Add collision between the trigger object and the map layer
 
+  this.createStars(); // Create the stars
+
+  // Add collision between the stars and the map layer
+  this.physics.add.collider(this.stars, layer);
+
 };
+
+gameScene.createStars = function () {
+  // Create a group to hold the stars
+  this.stars = this.physics.add.group();
+
+  const starPositions = [
+    { x: 100, y: 150 },
+    { x: 100, y: 320 },
+    { x: 340, y: 120 },
+    { x: 390, y: 220 },
+    { x: 230, y: 460 },
+    { x: 330, y: 460 },
+    { x: 420, y: 70 },
+    { x: 630, y: 300 },
+    { x: 890, y: 170 },
+  ];
+
+  starPositions.forEach((position) => {
+    const star = this.stars.create(position.x, position.y, "star");
+    star.setBounce(Phaser.Math.FloatBetween(0.5, 0.8));
+    star.setDisplaySize(50, 50);
+  });
+};
+
+
 
 
 gameScene.update = function (time, delta) {
@@ -119,6 +157,21 @@ gameScene.update = function (time, delta) {
     this.player.anims.play("stop");
     this.player.anims.stop();
   }
+
+  // Check for collision between the player and stars
+  this.physics.overlap(this.player, this.stars, this.collectStar, null, this);
+};
+
+gameScene.collectStar = function (player, star) {
+  // Play a sound when a star is collected
+  this.sound.play("collectSound");
+  // Update the score
+  this.score += 1;
+  this.scoreText.setText("Score: " + this.score);
+
+  // Remove the star from the group and destroy it
+  star.disableBody(true, true);
+
 };
 
 gameScene.nextLevel = function () {
