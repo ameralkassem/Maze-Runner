@@ -13,8 +13,8 @@ const game = new Phaser.Game(config);
 
 
 function preload() {
-  this.load.image('wall', 'wall.jpg');
-  this.load.image('background', 'backgroundimg.png');
+  this.load.image('wall', 'assets/images/wall.jpg');
+  this.load.image('background', 'assets/images/backgroundimg.png');
 
 }
 
