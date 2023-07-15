@@ -18,6 +18,7 @@ gameScene.create = function() {
     this.player = this.physics.add.sprite(0,20,"player");
     this.player.setBounce(0,1);
     this.player.setCollideWorldBounds(true);
+    //this.player.body.allowGravity = false;
     this.physics.add.collider(this.player,floor_layer);
 
     this.anims.create({
@@ -41,6 +42,16 @@ gameScene.create = function() {
     });
 
     this.anims.create({
+        key : "down",
+        frames : this.anims.generateFrameNumbers("gamepieces", {
+            start : 0,
+            end : 4,
+        }),
+        frameRate : 10,
+        repeat : -1,
+    });
+
+    this.anims.create({
         key : "stop",
         frames : this.anims.generateFrameNumbers("gamepieces",{
             start : 0,
@@ -51,6 +62,29 @@ gameScene.create = function() {
     });
 
     this.cursors = this.input.keyboard.createCursorKeys();
+};
+gameScene.update = function() {
+    if (this.cursors.left.isDown) {
+        this.player.setVelocityX(-200);
+        if (this.player.body.onFloor()) {
+            this.player.anims.play("left",true);
+        }
+    } else if (this.cursors.right.isDown) {
+        this.player.setVelocityX(200);
+        if (this.player.body.onFloor()) {
+            this.player.anims.play("right",true);
+        }
+    } else if (this.cursors.up.isDown) {
+        this.player.setVelocityY(-200);
+    
+    } else if (this.cursors.down.isDown) {
+        this.player.setVelocityY(200);
+        this.player.anims.play("down",true);
+    } else {
+        this.player.setVelocityX(0);
+        this.player.setVelocityY(0);
+        this.player.anims.stop();
+    }
 };
 
 const config = {
