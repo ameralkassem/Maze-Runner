@@ -13,19 +13,22 @@ const game = new Phaser.Game(config);
 
 
 function preload() {
+  this.load.image('wall', 'wall.jpg');
+  this.load.image('background', 'backgroundimg.png');
+
 }
 
-// Create function to set up game objects and logic
 function create() {
-
-  this.cameras.main.setBackgroundColor('#e6e1e1'); // Set background color
+  const backgroundImage = this.add.image(0, 0, 'background').setOrigin(0, 0);
+  backgroundImage.displayWidth = 640;
+  backgroundImage.displayHeight = 360;
 
   const wallGraphics = this.add.graphics();
-  wallGraphics.fillStyle(0x000000); // Set wall color
+  wallGraphics.fillStyle(0x000000);
 
-  // here i'm defining the position of each and every wall
+  //  here i'm defining the position of each and every wall
   const walls = [
-    { x: 50, y: 30, width: 640, height: 10 }, // Wall 1
+    { x: 50, y: 0, width: 640, height: 40 }, // Wall 1
     { x: 0, y: 90, width: 40, height: 10 }, // Wall 2
     { x: 0, y: 100, width: 10, height: 260 }, // Wall 3
     { x: 200, y: 40, width: 10, height: 150 }, // Wall 4
@@ -34,7 +37,6 @@ function create() {
     { x: 0, y: 350, width: 580, height: 10 }, // Wall 7
     { x: 100, y: 180, width: 130, height: 10 }, // Wall 8
     { x: 100, y: 130, width: 50, height: 10 }, // Wall 9
-    { x: 100, y: 130, width: 10, height: 56 }, // Wall 10
     { x: 0, y: 230, width: 50, height: 10 }, // Wall 11
     { x: 100, y: 280, width: 85, height: 10 }, // Wall 12
     { x: 130, y: 180, width: 10, height: 60 }, // Wall 13
@@ -42,7 +44,6 @@ function create() {
     { x: 180, y: 230, width: 50, height: 10 }, // Wall 15
     { x: 180, y: 240, width: 10, height: 50 }, // Wall 16
     { x: 270, y: 290, width: 10, height: 60 }, // Wall 17
-    { x: 400, y: 290, width: 10, height: 60 }, // Wall 18
     { x: 355, y: 290, width: 100, height: 10 }, // Wall 19
     { x: 350, y: 240, width: 10, height: 60 }, // Wall 20
     { x: 450, y: 240, width: 10, height: 60 }, // Wall 21
@@ -63,9 +64,13 @@ function create() {
     { x: 440, y: 130, width: 10, height: 70 }, // Wall 36
 
   ];
+
   // Draw walls using graphics
   walls.forEach(wall => {
-    wallGraphics.fillRect(wall.x, wall.y, wall.width, wall.height);
+    const wallImage = this.add.image(wall.x, wall.y, 'wall');
+    wallImage.setOrigin(0, 0);
+    wallImage.displayWidth = wall.width + 20;
+    wallImage.displayHeight = wall.height;
   });
 
 }
