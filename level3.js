@@ -29,6 +29,9 @@ gameScene.create = function () {
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
   this.physics.add.collider(this.player, floor_layer);
+  this.player.setDisplaySize(50, 60);
+
+  this.player.body.setSize(50, 60);
 
   this.enemy = this.physics.add.sprite(400, 20, "enemy");
   this.enemy.setBounce(0.1);
@@ -38,7 +41,70 @@ gameScene.create = function () {
 
   this.enemy.body.setSize(80, 80);
 
-  this.physics.world.gravity.y = 500;
+  this.anims.create({
+    key: "left",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 7,
+      end: 4,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 8,
+      end: 11,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "up",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 12,
+      end: 15,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+  this.anims.create({
+    key: "down",
+    frames: this.anims.generateFrameNumbers("gamePiece", {
+      start: 0,
+      end: 3,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "right",
+    frames: this.anims.generateFrameNumbers("enemyPiece", {
+      start: 0,
+      end: 12,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+  // Reverse the frames for "left" animation
+  const reverseFrames = this.anims
+    .generateFrameNumbers("enemyPiece", {
+      start: 0,
+      end: 12,
+    })
+    .reverse();
+
+  // Create the "left" animation using the reversed frames
+  this.anims.create({
+    key: "left",
+    frames: reverseFrames,
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.cursors = this.input.keyboard.createCursorKeys();
 };
 
 let config = {
@@ -49,7 +115,7 @@ let config = {
     default: "arcade",
     arcade: {
       gravity: { y: 200 },
-      debug: false,
+      debug: true,
     },
   },
   scene: gameScene,
