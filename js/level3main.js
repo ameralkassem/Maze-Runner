@@ -4,17 +4,17 @@ gameScene.score = 0;
 
 gameScene.preload = function () {
   // Load images
-  this.load.image("myTileset-image", "assets/images/level2taler.png");
+  this.load.image("myTileset-image", "assets/images/maptaler.png");
   this.load.image("star", "assets/images/star.png");
-  this.load.image("player", "assets/images/front-2.png");
+  this.load.image("player", "assets/images/frontsprite.png");
   this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
-  this.load.spritesheet("gamePiece", "assets/images/all.png", {
+  this.load.spritesheet("gamePiece", "assets/images/allsprite.png", {
     frameWidth: 60,
     frameHeight: 65,
   });
 
   // Load tilemap in JSON format
-  this.load.tilemapTiledJSON("wallmap", "level-2-scene.json");
+  this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level3.json");
   // Load cup image
   this.load.image("cup", "assets/images/cup.png");
 };
