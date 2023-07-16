@@ -13,14 +13,17 @@ gameScene.preload = function () {
   this.load.image("enemy", "assets/images/fire-circle.png");
   this.load.image("star", "assets/images/star.png");
   this.load.image("heart", "assets/images/heart.png");
+  this.load.image("cup", "assets/images/cup.png");
   this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
   this.load.audio("countdown", "assets/sounds/countdown.mp3");
   this.load.audio("playerDeathSound", "assets/sounds/playerDeath.mp3");
   this.load.audio("gameover", "assets/sounds/gameOver.mp3");
-  this.load.spritesheet("gamePiece", "assets/images/all-player-pieces.png", {
-    frameWidth: 60,
-    frameHeight: 65,
-  });
+  this.load.spritesheet("gamePiece", "assets/images/all-player-pieces.png",
+
+    {
+      frameWidth: 60,
+      frameHeight: 65,
+    });
   this.load.spritesheet("enemyPiece", "assets/images/fire-circle.png", {
     frameWidth: 60,
     frameHeight: 110,
@@ -200,6 +203,21 @@ gameScene.create = function () {
   this.enemy.setDisplaySize(100, 80);
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
+
+
+
+  // setting a trigger so whenever the sprite touch the cup it moves to another map
+  this.triggerObject = this.physics.add.sprite(1350, 800, "cup");
+  // Make the trigger object immovable
+  this.triggerObject.setImmovable(true);
+  // Keep the trigger object within the world bounds
+  this.triggerObject.setCollideWorldBounds(true);
+  // Set the width and height of the cup image
+  this.triggerObject.setDisplaySize(115, 115);
+
+  this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
+
+
 
   this.anims.create({
     key: "left",
@@ -386,6 +404,16 @@ gameScene.update = function () {
       this.isGameOverPlaying = true;
     }
 
+    // Check if the player reaches the destination coordinates
+    if (
+      Math.abs(this.player.x - this.destinationX) < 5 &&
+      Math.abs(this.player.y - this.destinationY) < 5
+    ) {
+      // Trigger the next level or scene
+      this.nextLevel();
+    }
+
+
     const gameOverText = this.add.text(
       this.cameras.main.centerX,
       this.cameras.main.centerY - 100,
@@ -479,7 +507,11 @@ gameScene.onOverlap = function (enemy, player) {
   }
 
 };
+gameScene.nextLevel = function () {
 
+  window.location.href = "../level2index.html";
+
+};
 let config = {
   type: Phaser.AUTO,
   width: 1280,
