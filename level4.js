@@ -1,11 +1,18 @@
 let gameScene = new Phaser.Scene("Game");
 gameScene.score = 0;
+gameScene.lives = 3;
+
+
+// ================================================================================
+// Preload
+
 
 gameScene.preload = function () {
   this.load.image("myTileset-image", "assets/wall-images.png");
   this.load.image("player", "assets/player-front.png");
   this.load.image("enemy", "assets/fire-circle.png");
   this.load.image("star", "assets/star.png");
+  this.load.image("heart", "assets/heart.png");
   this.load.audio("collectSound", "assets/collect-star.mp3");
   this.load.audio("playerDeathSound", "assets/playerDeath.mp3");
   this.load.spritesheet("gamePiece", "assets/all-player-pieces.png", {
@@ -20,6 +27,9 @@ gameScene.preload = function () {
   this.load.tilemapTiledJSON("Gamemap", "map.json");
 };
 
+
+// ================================================================================
+// Create
 
 
 gameScene.create = function () {
@@ -39,7 +49,7 @@ gameScene.create = function () {
 
   this.player.body.setSize(50, 60);
 
-  gameScene.scoreText = this.add.text(16, 10, 'Score: 0',
+  gameScene.scoreText = this.add.text(16, 10, `Score: ${gameScene.score}`,
     {
       fontSize: '32px',
       fill: '#ffffff',
@@ -48,6 +58,7 @@ gameScene.create = function () {
     });
 
 
+  this.createHearts();
   this.createStars(); // Create the stars
 
   // Add collision between the stars and the map layer
@@ -56,12 +67,12 @@ gameScene.create = function () {
 
 
   // Set the time limit (in milliseconds)
-  const timeLimit = 90000; // 60 seconds
+  const timeLimit = 9000; // 90 seconds
 
   // Start the timer
   const timer = this.time.addEvent({
     delay: timeLimit,
-    callback: this.redirectToLandingPage,
+    callback: this.restartLevel,
     callbackScope: this,
   });
 
@@ -198,9 +209,57 @@ gameScene.create = function () {
   this.cursors = this.input.keyboard.createCursorKeys();
 };
 
-gameScene.redirectToLandingPage = function () {
-  // Redirect to the landing page
-  window.location.href = "index.html";
+
+gameScene.createHearts = function () {
+
+  let life = gameScene.lives; 
+
+  // Create a group to hold the hearts
+  this.hearts = this.physics.add.group({
+    key: "heart",
+    repeat: life - 1,
+    setXY: { x: gameScene.sys.game.config.width - 250, y: 30, stepX: 70 },
+  });
+
+  this.hearts.children.iterate(function (child) {
+    child.setDisplaySize(70, 40);
+    child.setGravityY(-200);
+});
+};
+
+
+
+
+gameScene.restartLevel = function () {
+  const scene = gameScene;
+
+  // freeze the player
+  scene.physics.pause();
+
+// remove one heart
+gameScene.lives -= 1;
+
+
+
+  // Restart level
+  const gameOverText = scene.add.text(
+    scene.cameras.main.centerX,
+    scene.cameras.main.centerY - 100,
+    "Time's Out!",
+    {
+      font: 'bold 80px Arial',
+      fill: '#ff0000',
+      backgroundColor: '#00000',
+      padding: 15,
+    }
+  );
+  gameOverText.setOrigin(0.5); // Set the origin to the center of the text
+
+  // Restart the scene after a delay
+  scene.time.delayedCall(2000, function () {
+    gameScene.score = 0;
+    scene.scene.restart();
+  });
 };
 
 gameScene.createStars = function () {
@@ -227,6 +286,10 @@ gameScene.createStars = function () {
     star.setDisplaySize(50, 50);
   });
 };
+
+
+// ================================================================================
+// UPDATE
 
 
 gameScene.update = function () {
@@ -268,7 +331,12 @@ gameScene.onOverlap = function (enemy, player) {
   // Kill the player
   scene.sound.play("playerDeathSound");
   player.setTint(0xff0000);
+
+  // Freeze the player
   scene.physics.pause();
+
+  // remove one heart
+  gameScene.lives -= 1;
 
   // Create a text object to display "You died"
   const gameOverText = scene.add.text(
@@ -286,6 +354,7 @@ gameScene.onOverlap = function (enemy, player) {
 
   // Restart the scene after a delay
   scene.time.delayedCall(2000, function () {
+    gameScene.score = 0;
     scene.scene.restart();
   });
 
