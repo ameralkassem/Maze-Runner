@@ -16,6 +16,7 @@ gameScene.preload = function () {
   this.load.audio("collectSound", "assets/collect-star.mp3");
   this.load.audio("countdown", "assets/countdown.mp3");
   this.load.audio("playerDeathSound", "assets/playerDeath.mp3");
+  this.load.audio("gameover", "assets/gameOver.mp3");
   this.load.spritesheet("gamePiece", "assets/all-player-pieces.png", {
     frameWidth: 60,
     frameHeight: 65,
@@ -32,8 +33,10 @@ gameScene.preload = function () {
 // ================================================================================
 // CREATE
 
+gameScene.isGameOverPlaying = false;
 
 gameScene.create = function () {
+  gameScene.sound.stopAll();
   const map = this.make.tilemap({ key: "Gamemap" });
   const tileset = map.addTilesetImage("map", "myTileset-image");
   const background_layer = map.createLayer("background", tileset, 0, 0);
@@ -69,7 +72,7 @@ gameScene.create = function () {
 
 
   // Set the time limit (in milliseconds)
-  const timeLimit = 90000; // 90 seconds
+  const timeLimit = 30000; // 90 seconds
 
   // Start the timer
   const timer = this.time.addEvent({
@@ -100,7 +103,7 @@ gameScene.create = function () {
   function formatTime(milliseconds) {
     const minutes = Math.floor(milliseconds / 60000);
     const seconds = Math.floor((milliseconds % 60000) / 1000);
-    const millisecondsRemaining = milliseconds % 1000;
+    let millisecondsRemaining = milliseconds % 1000;
 
     // Play a countdown sound effect when the timer reaches 20 seconds
     if (seconds == 20 && minutes === 0 && isCountdownPlaying === false) {
@@ -108,13 +111,11 @@ gameScene.create = function () {
       isCountdownPlaying = true;
     }
 
-    // if (game)
-
     if (minutes == 0 && seconds == 0) {
       millisecondsRemaining = 0;
     }
 
-    if (minutes === 0 && seconds < 20) {
+    if (minutes === 0 && seconds <= 10) {
       return (
         minutes.toString().padStart(2, "0") +
         ":" +
@@ -304,10 +305,12 @@ gameScene.restartLevel = function () {
   gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
   // Restart the scene after a delay
-  scene.time.delayedCall(2000, function () {
-    gameScene.score = 0;
-    scene.scene.restart();
-  });
+  if (gameScene.lives > 0) {
+    scene.time.delayedCall(2000, function () {
+      gameScene.score = 0;
+      scene.scene.restart();
+    });
+  }
 };
 
 gameScene.createStars = function () {
@@ -373,6 +376,16 @@ gameScene.update = function () {
     // Remove Heart
     this.hearts.children.entries[gameScene.lives].disableBody(true, true);
 
+    // Stop Countdown Sound
+    gameScene.sound.stopByKey("countdown");
+
+    //Delay Game Over Sound
+    this.time.delayedCall(100, function () { });
+    if (this.isGameOverPlaying == false) {
+      gameScene.sound.play("gameover");
+      this.isGameOverPlaying = true;
+    }
+
     const gameOverText = this.add.text(
       this.cameras.main.centerX,
       this.cameras.main.centerY - 100,
@@ -390,7 +403,7 @@ gameScene.update = function () {
     this.physics.pause();
 
     // Redirect To Landing Page
-    this.time.delayedCall(2000, function () {
+    this.time.delayedCall(4500, function () {
       window.location.href = "index.html";
     }
     );
@@ -446,7 +459,7 @@ gameScene.onOverlap = function (enemy, player) {
   const gameOverText2 = scene.add.text(
     scene.cameras.main.centerX - 20,
     scene.cameras.main.centerY - 40,
-    "x" + gameScene.lives,
+    "x " + gameScene.lives,
     {
       font: '70px Arial',
       fill: '#ffff',
@@ -458,10 +471,12 @@ gameScene.onOverlap = function (enemy, player) {
   gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
   // Restart the scene after a delay
-  scene.time.delayedCall(2000, function () {
-    gameScene.score = 0;
-    scene.scene.restart();
-  });
+  if (gameScene.lives > 0) {
+    scene.time.delayedCall(2000, function () {
+      gameScene.score = 0;
+      scene.scene.restart();
+    });
+  }
 
 };
 
