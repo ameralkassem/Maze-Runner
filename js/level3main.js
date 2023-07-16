@@ -1,9 +1,11 @@
-// Create a new scene
-let gameScene = new Phaser.Scene("Game");
+
+
+let gameScene = new Phaser.Scene("level3");
 gameScene.score = 0;
 
 gameScene.preload = function () {
-  // Load images
+
+  // the below code is to load the images of the game
   this.load.image("myTileset-image", "assets/images/maptaler.png");
   this.load.image("star", "assets/images/star.png");
   this.load.image("player", "assets/images/frontsprite.png");
@@ -13,12 +15,17 @@ gameScene.preload = function () {
     frameHeight: 65,
   });
 
-  // Load tilemap in JSON format
+  // the below code is to load the map
   this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level3.json");
-  // Load cup image
+  // the below code is to load the cup image
   this.load.image("cup", "assets/images/cup.png");
 };
+
+
 gameScene.create = function () {
+
+  // the below code is to show map with the walls , herbs, etc and without allowing 
+  // the the player to move in it 
   const map = this.make.tilemap({ key: "wallmap" });
   const tileset = map.addTilesetImage("map", "myTileset-image");
   const layer = map.createStaticLayer("wall", tileset, 0, 0);
@@ -31,10 +38,12 @@ gameScene.create = function () {
   this.player = this.physics.add.sprite(50, 20, "player");
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
-  this.player.body.gravity.y = 0; // Disable gravity for falling
+  this.player.body.gravity.y = 0;
   this.physics.add.collider(this.player, layer);
   this.physics.add.collider(this.player, layer2);
 
+
+  // the below code is used show the game score 
   gameScene.scoreText = this.add.text(16, 15, 'Score: 0',
     {
       fontSize: '32px',
@@ -43,7 +52,7 @@ gameScene.create = function () {
       padding: 3
     });
 
-
+  // the below code is related to the movement of the sprite based on keyboard keys and allsprite.png
   this.anims.create({
     key: "left",
     frames: this.anims.generateFrameNumbers("gamePiece", {
@@ -76,21 +85,22 @@ gameScene.create = function () {
 
   this.cursors = this.input.keyboard.createCursorKeys();
 
-  // Jump parameters
+  // Jto add jumpforce to sprite
   this.jumpForce = 300;
-  this.isJumping = false;
-  // Add an object that triggers the next level or scene
-  this.triggerObject = this.physics.add.sprite(70, 700, "cup"); // Use the cup image as the sprite for the trigger object
-  this.triggerObject.setImmovable(true); // Make the trigger object immovable
-  this.triggerObject.setCollideWorldBounds(true); // Keep the trigger object within the world bounds
-  this.triggerObject.setDisplaySize(130, 130); // Set the width and height of the cup image
+
+  // to trigger whenever the sprite touches the cup
+  this.triggerObject = this.physics.add.sprite(70, 700, "cup");
+  this.triggerObject.setImmovable(true);
+  this.triggerObject.setCollideWorldBounds(true);
+  this.triggerObject.setDisplaySize(130, 130);
 
   this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
-  this.physics.add.collider(this.triggerObject, layer); // Add collision between the trigger object and the map layer
+  this.physics.add.collider(this.triggerObject, layer);
 
-  this.createStars(); // Create the stars
+  //to create stars
+  this.createStars();
 
-  // Add collision between the stars and the map layer
+
   this.physics.add.collider(this.stars, layer);
 
 
@@ -206,6 +216,7 @@ gameScene.update = function (time, delta) {
 
 };
 
+// this function is for time
 function formatTime(milliseconds) {
   const minutes = Math.floor(milliseconds / 60000);
   const seconds = Math.floor((milliseconds % 60000) / 1000);
@@ -218,7 +229,7 @@ function formatTime(milliseconds) {
 
 gameScene.redirectToLandingPage = function () {
   // Redirect to the landing page
-  window.location.href = "index.html";
+  window.location.href = "./level3index.html";
 };
 
 gameScene.collectStar = function (player, star) {
@@ -234,10 +245,9 @@ gameScene.collectStar = function (player, star) {
 };
 
 gameScene.nextLevel = function () {
-  // Perform any necessary actions for transitioning to the next level or scene
-  // For example, you can stop the current scene and start the next scene
+
   this.scene.stop();
-  this.scene.start("NextLevelScene"); // Replace "NextLevelScene" with the name of your next level or scene
+  this.scene.start("NextLevelScene");
 };
 
 let config = {
