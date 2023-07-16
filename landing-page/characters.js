@@ -5,9 +5,8 @@ const BoyCharacter = document.querySelector(".boy-character");
 const GirlCharater = document.querySelector(".girl-character");
 const MarioCharater = document.querySelector(".mario-character");
 const SelectedClass = document.querySelectorAll(".Selected");
-console.log(BoyCharacter);
 selectBoy.addEventListener("click", () => {
-  if (SelectedClass) {
+  if (SelectedClass > 0) {
     SelectedClass.classList.remove("Selected");
   }
   localStorage.clear();
@@ -46,7 +45,7 @@ selectBoy.addEventListener("click", () => {
 });
 
 selectGirl.addEventListener("click", () => {
-  if (SelectedClass) {
+  if (SelectedClass > 0) {
     SelectedClass.classList.remove("Selected");
   }
   localStorage.clear();
@@ -84,7 +83,7 @@ selectGirl.addEventListener("click", () => {
 });
 
 selectMario.addEventListener("click", () => {
-  if (SelectedClass) {
+  if (SelectedClass > 0) {
     SelectedClass.classList.remove("Selected");
   }
   localStorage.clear();
