@@ -132,17 +132,17 @@ gameScene.create = function () {
 
 
 
-   // Set the time limit (in milliseconds)
-   const timeLimit = 60000; // 60 seconds
+  // Set the time limit (in milliseconds)
+  const timeLimit = 60000; // 60 seconds
 
-   // Start the timer
-   const timer = this.time.addEvent({
-     delay: timeLimit,
-     callback: this.restartLevel,
-     callbackScope: this,
-   });
+  // Start the timer
+  const timer = this.time.addEvent({
+    delay: timeLimit,
+    callback: this.restartLevel,
+    callbackScope: this,
+  });
 
-   // Display the timer text
+  // Display the timer text
   this.timerText = this.add.text(
     200,
     10,
@@ -485,7 +485,7 @@ gameScene.collectStar = function (player, star) {
 gameScene.nextLevel = function () {
 
   this.scene.stop();
-  this.scene.start("NextLevelScene");
+  window.location.href = "../level4index.html";
 };
 
 let config = {

@@ -46,17 +46,17 @@ gameScene_level2.create = function () {
             backgroundColor: '#000000',
             padding: 3
         });
-    
+
     timeText = this.add.text(200, 15, 'Time: ' + formatTime(timeLimit), {
         fontSize: '32px',
         fill: '#ffffff',
         backgroundColor: '#000000'
-        });
+    });
 
     gameOverText = this.add.text(400, 350, '', {
-            fontSize: '72px',
-            fill: '#ff0000'
-        });
+        fontSize: '72px',
+        fill: '#ff0000'
+    });
 
 
     this.time.addEvent({
@@ -189,7 +189,8 @@ gameScene_level2.update = function () {
 };
 gameScene_level2.nextLevel = function () {
     this.scene.stop();
-    this.scene.start("NextLevelScene");
+    window.location.href = "../level3index.html";
+
 }
 function formatTime(milliseconds) {
     const minutes = Math.floor(milliseconds / 60000);

@@ -432,7 +432,7 @@ gameScene.update = function () {
 
     // Redirect To Landing Page
     this.time.delayedCall(4500, function () {
-      window.location.href = "index.html";
+      window.location.href = "../level1index.html";
     }
     );
 
@@ -509,7 +509,7 @@ gameScene.onOverlap = function (enemy, player) {
 };
 gameScene.nextLevel = function () {
 
-  window.location.href = "../level2index.html";
+  window.location.href = "../congratnoob.html";
 
 };
 let config = {
