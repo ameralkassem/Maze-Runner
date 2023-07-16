@@ -53,15 +53,23 @@ gameScene_level2.create = function () {
         backgroundColor: '#000000'
         });
 
+    gameOverText = this.add.text(400, 350, '', {
+            fontSize: '72px',
+            fill: '#ff0000'
+        });
+
 
     this.time.addEvent({
         delay: 1000,
         callback: function () {
             timeLimit -= 1000;
+            if (timeLimit < 0) {
+                timeLimit = 0;
+            }
             timeText.setText('Time: ' + formatTime(timeLimit));
 
             if (timeLimit <= 0) {
-                gameOverText.setText('Game Over');
+                gameOverText.setText('Game Over, NOOB!');
             }
         },
         callbackScope: this,
