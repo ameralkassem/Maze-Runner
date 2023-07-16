@@ -14,7 +14,7 @@ gameScene.preload = function () {
   });
 
   // the below code is to load the map
-  this.load.tilemapTiledJSON("wallmap", "assets /map/gameScene_level1.json");
+  this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level1.json");
   // the below code is to load the cup image
   this.load.image("cup", "assets/images/cup.png");
 };
@@ -238,10 +238,9 @@ gameScene.collectStar = function (player, star) {
 };
 
 gameScene.nextLevel = function () {
-  // Perform any necessary actions for transitioning to the next level or scene
-  // For example, you can stop the current scene and start the next scene
-  this.scene.stop();
-  this.scene.start("NextLevelScene"); // Replace "NextLevelScene" with the name of your next level or scene
+
+  window.location.href = "../level2index.html";
+
 };
 
 let config = {
