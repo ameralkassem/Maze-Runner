@@ -1,4 +1,4 @@
-let gameScene = new Phaser.Scene("Game");
+let gameScene = new Phaser.Scene("level4");
 gameScene.score = 0;
 gameScene.lives = 3;
 
@@ -8,25 +8,25 @@ gameScene.lives = 3;
 
 
 gameScene.preload = function () {
-  this.load.image("myTileset-image", "assets/wall-images.png");
-  this.load.image("player", "assets/player-front.png");
-  this.load.image("enemy", "assets/fire-circle.png");
-  this.load.image("star", "assets/star.png");
-  this.load.image("heart", "assets/heart.png");
-  this.load.audio("collectSound", "assets/collect-star.mp3");
-  this.load.audio("countdown", "assets/countdown.mp3");
-  this.load.audio("playerDeathSound", "assets/playerDeath.mp3");
-  this.load.audio("gameover", "assets/gameOver.mp3");
-  this.load.spritesheet("gamePiece", "assets/all-player-pieces.png", {
+  this.load.image("myTileset-image", "assets/images/maptaler.png");
+  this.load.image("player", "assets/images/player-front.png");
+  this.load.image("enemy", "assets/images/fire-circle.png");
+  this.load.image("star", "assets/images/star.png");
+  this.load.image("heart", "assets/images/heart.png");
+  this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
+  this.load.audio("countdown", "assets/sounds/countdown.mp3");
+  this.load.audio("playerDeathSound", "assets/sounds/playerDeath.mp3");
+  this.load.audio("gameover", "assets/sounds/gameOver.mp3");
+  this.load.spritesheet("gamePiece", "assets/images/all-player-pieces.png", {
     frameWidth: 60,
     frameHeight: 65,
   });
-  this.load.spritesheet("enemyPiece", "assets/fire-circle.png", {
+  this.load.spritesheet("enemyPiece", "assets/images/fire-circle.png", {
     frameWidth: 60,
     frameHeight: 110,
   });
 
-  this.load.tilemapTiledJSON("Gamemap", "map.json");
+  this.load.tilemapTiledJSON("Gamemap", "assets/map/gameScene_level4.json");
 };
 
 
