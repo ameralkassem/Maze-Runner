@@ -1,23 +1,26 @@
 // Create a new scene
-let gameScene = new Phaser.Scene("Game");
+let gameScene = new Phaser.Scene("level1");
 gameScene.score = 0;
 
 gameScene.preload = function () {
-  // Load images
-  this.load.image("myTileset-image", "assets/images/level1taler.png");
+  // the below code is to load the images
+  this.load.image("myTileset-image", "assets/images/maptaler.png");
   this.load.image("star", "assets/images/star.png");
-  this.load.image("player", "assets/images/front-2.png");
+  this.load.image("player", "assets/images/frontsprite.png");
   this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
-  this.load.spritesheet("gamePiece", "assets/images/all.png", {
+  this.load.spritesheet("gamePiece", "assets/images/allsprite.png", {
     frameWidth: 60,
     frameHeight: 65,
   });
 
-  // Load tilemap in JSON format
-  this.load.tilemapTiledJSON("wallmap", "level-1-scene.json");
-  // Load cup image
+  // the below code is to load the map
+  this.load.tilemapTiledJSON("wallmap", "assets /map/gameScene_level1.json");
+  // the below code is to load the cup image
   this.load.image("cup", "assets/images/cup.png");
 };
+
+// the below code is to set up the game and collisino
+
 gameScene.create = function () {
   const map = this.make.tilemap({ key: "wallmap" });
   const tileset = map.addTilesetImage("map", "myTileset-image");
@@ -27,7 +30,9 @@ gameScene.create = function () {
   this.player = this.physics.add.sprite(0, 20, "player");
   this.player.setBounce(0.1);
   this.player.setCollideWorldBounds(true);
-  this.player.body.gravity.y = 0; // Disable gravity for falling
+
+  // Disable gravity for falling
+  this.player.body.gravity.y = 0;
   this.physics.add.collider(this.player, layer);
   gameScene.scoreText = this.add.text(16, 15, 'Score: 0',
     {
@@ -37,7 +42,7 @@ gameScene.create = function () {
       padding: 3
     });
 
-
+  // the below code is to set the movement of the sprite
   this.anims.create({
     key: "left",
     frames: this.anims.generateFrameNumbers("gamePiece", {
@@ -70,17 +75,22 @@ gameScene.create = function () {
 
   this.cursors = this.input.keyboard.createCursorKeys();
 
-  // Jump parameters
+  // set the jump force of the sprite
   this.jumpForce = 300;
-  this.isJumping = false;
-  // Add an object that triggers the next level or scene
-  this.triggerObject = this.physics.add.sprite(1000, 400, "cup"); // Use the cup image as the sprite for the trigger object
-  this.triggerObject.setImmovable(true); // Make the trigger object immovable
-  this.triggerObject.setCollideWorldBounds(true); // Keep the trigger object within the world bounds
-  this.triggerObject.setDisplaySize(130, 130); // Set the width and height of the cup image
 
+
+  // setting a trigger so whenever the sprite touch the cup it moves to another map
+  this.triggerObject = this.physics.add.sprite(1000, 400, "cup");
+  // Make the trigger object immovable
+  this.triggerObject.setImmovable(true);
+  // Keep the trigger object within the world bounds
+  this.triggerObject.setCollideWorldBounds(true);
+  // Set the width and height of the cup image
+  this.triggerObject.setDisplaySize(130, 130);
+
+  // Add collision between the trigger object and the map layer
   this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
-  this.physics.add.collider(this.triggerObject, layer); // Add collision between the trigger object and the map layer
+  this.physics.add.collider(this.triggerObject, layer);
 
   this.createStars(); // Create the stars
 
@@ -212,7 +222,7 @@ function formatTime(milliseconds) {
 
 gameScene.redirectToLandingPage = function () {
   // Redirect to the landing page
-  window.location.href = "index.html";
+  window.location.href = "./level1index.html";
 };
 
 gameScene.collectStar = function (player, star) {
