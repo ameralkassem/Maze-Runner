@@ -4,7 +4,7 @@ gameScene.lives = 3;
 
 
 // ================================================================================
-// Preload
+// PRELOAD
 
 
 gameScene.preload = function () {
@@ -29,7 +29,7 @@ gameScene.preload = function () {
 
 
 // ================================================================================
-// Create
+// CREATE
 
 
 gameScene.create = function () {
@@ -67,7 +67,7 @@ gameScene.create = function () {
 
 
   // Set the time limit (in milliseconds)
-  const timeLimit = 9000; // 90 seconds
+  const timeLimit = 90000; // 90 seconds
 
   // Start the timer
   const timer = this.time.addEvent({
@@ -245,7 +245,7 @@ gameScene.lives -= 1;
   const gameOverText = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY - 100,
-    "Time's Out!",
+    "Time's up!",
     {
       font: 'bold 80px Arial',
       fill: '#ff0000',
@@ -320,6 +320,36 @@ gameScene.update = function () {
   this.physics.overlap(this.player, this.stars, this.collectStar, null, this);
 
 
+  // Check if lives are 0
+  if (gameScene.lives === 0) {
+    // Remove Heart
+    this.hearts.children.entries[gameScene.lives].disableBody(true, true);
+
+    const gameOverText = this.add.text(
+      this.cameras.main.centerX,
+      this.cameras.main.centerY - 100,
+      "Game Over!", {
+        font: 'bold 80px Arial',
+        fill: '#ff0000',
+        backgroundColor: '#00000',
+        padding: 15,
+      }
+    );
+
+    gameOverText.setOrigin(0.5); // Set the origin to the center of the text
+
+    // Freeze physics 
+    this.physics.pause();
+
+    // Redirect To Landing Page
+    this.time.delayedCall(2000, function () {
+      window.location.href = "index.html";
+    }
+    );
+
+  }
+
+
   // Call the updateTimer function every frame
   this.updateTimer();
 
@@ -342,7 +372,7 @@ gameScene.onOverlap = function (enemy, player) {
   const gameOverText = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY - 100,
-    "You died",
+    "You died!",
     {
       font: 'bold 80px Arial',
       fill: '#ff0000',
