@@ -3,14 +3,14 @@ let gameScene = new Phaser.Scene("Game");
 gameScene.preload = function () {
   this.load.image("myTileset-image", "assets/wall-images.png");
   this.load.image("player", "assets/player-front.png");
-  this.load.image("enemy", "assets/enemy.png");
+  this.load.image("enemy", "assets/fire-circle.png");
   this.load.spritesheet("gamePiece", "assets/player-pieces.png", {
-    frameWidth: 60,
+    frameWidth: 100,
     frameHeight: 65,
   });
-  this.load.spritesheet("enemyPiece", "assets/enemy-pieces.png", {
+  this.load.spritesheet("enemyPiece", "assets/fire-circle.png", {
     frameWidth: 60,
-    frameHeight: 65,
+    frameHeight: 110,
   });
 
   this.load.tilemapTiledJSON("Gamemap", "map.json");
@@ -33,13 +33,50 @@ gameScene.create = function () {
 
   this.player.body.setSize(50, 60);
 
-  this.enemy = this.physics.add.sprite(400, 20, "enemy");
-  this.enemy.setBounce(0.1);
+  this.enemy = this.physics.add.sprite(643, 20, "enemy");
+  this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
   this.physics.add.collider(this.enemy, floor_layer);
-  this.enemy.setDisplaySize(80, 80);
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
+  this.enemy.setDisplaySize(100, 80);
+  this.enemy.body.gravity.y = -150;
+  this.enemy.body.setSize(200, 290);
 
-  this.enemy.body.setSize(80, 80);
+  this.enemy = this.physics.add.sprite(450, 140, "enemy");
+  this.enemy.setBounce(1);
+  this.enemy.setCollideWorldBounds(true);
+  this.physics.add.collider(this.enemy, floor_layer);
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
+  this.enemy.setDisplaySize(100, 80);
+  this.enemy.body.gravity.y = -150;
+  this.enemy.body.setSize(200, 290);
+
+  this.enemy = this.physics.add.sprite(930, 250, "enemy");
+  this.enemy.setBounce(1);
+  this.enemy.setCollideWorldBounds(true);
+  this.physics.add.collider(this.enemy, floor_layer);
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
+  this.enemy.setDisplaySize(100, 80);
+  this.enemy.body.gravity.y = -150;
+  this.enemy.body.setSize(200, 290);
+
+  this.enemy = this.physics.add.sprite(830, 550, "enemy");
+  this.enemy.setBounce(1);
+  this.enemy.setCollideWorldBounds(true);
+  this.physics.add.collider(this.enemy, floor_layer);
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
+  this.enemy.setDisplaySize(100, 80);
+  this.enemy.body.gravity.y = -150;
+  this.enemy.body.setSize(200, 290);
+
+  this.enemy = this.physics.add.sprite(160, 50, "enemy");
+  this.enemy.setBounce(1);
+  this.enemy.setCollideWorldBounds(true);
+  this.physics.add.collider(this.enemy, floor_layer);
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
+  this.enemy.setDisplaySize(100, 80);
+  this.enemy.body.gravity.y = -150;
+  this.enemy.body.setSize(200, 290);
 
   this.anims.create({
     key: "left",
@@ -78,33 +115,38 @@ gameScene.create = function () {
     frameRate: 10,
     repeat: -1,
   });
-
   this.anims.create({
-    key: "right",
-    frames: this.anims.generateFrameNumbers("enemyPiece", {
-      start: 0,
-      end: 12,
-    }),
+    key: "stop",
+    frames: [{ key: "player", frame: 0 }],
     frameRate: 10,
-    repeat: -1,
-  });
-  // Reverse the frames for "left" animation
-  const reverseFrames = this.anims
-    .generateFrameNumbers("enemyPiece", {
-      start: 0,
-      end: 12,
-    })
-    .reverse();
-
-  // Create the "left" animation using the reversed frames
-  this.anims.create({
-    key: "left",
-    frames: reverseFrames,
-    frameRate: 10,
-    repeat: -1,
   });
 
   this.cursors = this.input.keyboard.createCursorKeys();
+};
+
+gameScene.update = function () {
+  if (this.cursors.left.isDown) {
+    this.player.setVelocityX(-200);
+    if (this.player.body.onFloor()) {
+      this.player.anims.play("left", true);
+    }
+  } else if (this.cursors.right.isDown) {
+    this.player.setVelocityX(200);
+    if (this.player.body.onFloor()) {
+      this.player.anims.play("right", true);
+    }
+  } else if (this.cursors.up.isDown) {
+    this.player.setVelocityY(-200);
+  } else if (this.cursors.down.isDown) {
+    this.player.setVelocityY(200);
+  } else {
+    this.player.setVelocityX(0);
+    this.player.anims.play("stop");
+    this.player.anims.stop();
+  }
+};
+gameScene.onOverlap = function (player, enemy) {
+  console.log("hi");
 };
 
 let config = {
@@ -115,7 +157,7 @@ let config = {
     default: "arcade",
     arcade: {
       gravity: { y: 200 },
-      debug: true,
+      debug: false,
     },
   },
   scene: gameScene,
