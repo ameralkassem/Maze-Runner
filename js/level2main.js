@@ -1,6 +1,9 @@
 let gameScene_level2 = new Phaser.Scene("Game");
 
 gameScene_level2.score = 0;
+let timeLimit = 90000;
+let timeText;
+let gameOverText;
 
 gameScene_level2.preload = function () {
     this.load.image("wall-image", "assets/images/maptaler.png");
@@ -43,7 +46,27 @@ gameScene_level2.create = function () {
             backgroundColor: '#000000',
             padding: 3
         });
+    
+    timeText = this.add.text(200, 15, 'Time: ' + formatTime(timeLimit), {
+        fontSize: '32px',
+        fill: '#ffffff',
+        backgroundColor: '#000000'
+        });
 
+
+    this.time.addEvent({
+        delay: 1000,
+        callback: function () {
+            timeLimit -= 1000;
+            timeText.setText('Time: ' + formatTime(timeLimit));
+
+            if (timeLimit <= 0) {
+                gameOverText.setText('Game Over');
+            }
+        },
+        callbackScope: this,
+        loop: true
+    });
 
     this.anims.create({
         key: "left",
@@ -147,7 +170,6 @@ gameScene_level2.update = function () {
 
     gameScene_level2.collectCoin = function (player, coin) {
         this.sound.play("coinSound");
-        // Update the score
         this.score += 1;
         this.scoreText.setText("Score: " + this.score);
 
@@ -161,6 +183,16 @@ gameScene_level2.nextLevel = function () {
     this.scene.stop();
     this.scene.start("NextLevelScene");
 }
+function formatTime(milliseconds) {
+    const minutes = Math.floor(milliseconds / 60000);
+    const seconds = Math.floor((milliseconds % 60000) / 1000);
+    return (
+        minutes.toString().padStart(2, "0") +
+        ":" +
+        seconds.toString().padStart(2, "0")
+    );
+}
+
 
 const config = {
     type: Phaser.AUTO,
