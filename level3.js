@@ -4,8 +4,8 @@ gameScene.preload = function () {
   this.load.image("myTileset-image", "assets/wall-images.png");
   this.load.image("player", "assets/player-front.png");
   this.load.image("enemy", "assets/fire-circle.png");
-  this.load.spritesheet("gamePiece", "assets/player-pieces.png", {
-    frameWidth: 100,
+  this.load.spritesheet("gamePiece", "assets/all-player-pieces.png", {
+    frameWidth: 60,
     frameHeight: 65,
   });
   this.load.spritesheet("enemyPiece", "assets/fire-circle.png", {
@@ -32,7 +32,7 @@ gameScene.create = function () {
   this.player.setDisplaySize(50, 60);
 
   this.player.body.setSize(50, 60);
-
+  // enemy 1
   this.enemy = this.physics.add.sprite(643, 20, "enemy");
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
@@ -42,6 +42,7 @@ gameScene.create = function () {
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
 
+  // enemy 2
   this.enemy = this.physics.add.sprite(450, 140, "enemy");
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
@@ -51,6 +52,7 @@ gameScene.create = function () {
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
 
+  // enemy 3
   this.enemy = this.physics.add.sprite(930, 250, "enemy");
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
@@ -60,6 +62,7 @@ gameScene.create = function () {
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
 
+  // enemy 4
   this.enemy = this.physics.add.sprite(830, 550, "enemy");
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
@@ -69,6 +72,7 @@ gameScene.create = function () {
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
 
+  // enemy 5
   this.enemy = this.physics.add.sprite(160, 50, "enemy");
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
@@ -88,6 +92,10 @@ gameScene.create = function () {
     repeat: -1,
   });
 
+  // Get the number of frames in the "gamePiece" texture
+
+  console.log(this.spritesheet);
+
   this.anims.create({
     key: "right",
     frames: this.anims.generateFrameNumbers("gamePiece", {
@@ -105,6 +113,8 @@ gameScene.create = function () {
     }),
     frameRate: 10,
     repeat: -1,
+    frameWidth: 32,
+    frameHeight: 32,
   });
   this.anims.create({
     key: "down",
@@ -139,6 +149,9 @@ gameScene.update = function () {
     this.player.setVelocityY(-200);
   } else if (this.cursors.down.isDown) {
     this.player.setVelocityY(200);
+    if (!this.player.body.onFloor()) {
+      this.player.anims.play("down", true);
+    }
   } else {
     this.player.setVelocityX(0);
     this.player.anims.play("stop");
