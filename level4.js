@@ -72,7 +72,7 @@ gameScene.create = function () {
 
 
   // Set the time limit (in milliseconds)
-  const timeLimit = 30000; // 90 seconds
+  const timeLimit = 90000; // 90 seconds
 
   // Start the timer
   const timer = this.time.addEvent({
