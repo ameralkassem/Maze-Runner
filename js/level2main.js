@@ -123,14 +123,10 @@ gameScene_level2.createCoins = function () {
     this.coins = this.physics.add.group();
 
     const coinPositions = [
-        { x: 100, y: 150 },
         { x: 100, y: 320 },
-        { x: 340, y: 120 },
         { x: 390, y: 220 },
-        { x: 230, y: 460 },
-        { x: 330, y: 460 },
-        { x: 420, y: 70 },
         { x: 630, y: 300 },
+        { x : 890, y : 600},
         { x: 890, y: 170 },
     ];
 
@@ -177,9 +173,11 @@ gameScene_level2.update = function () {
 
 
     gameScene_level2.collectCoin = function (player, coin) {
+        let coin_arr = [{x : 500, y : 100}]
         this.sound.play("coinSound");
         this.score += 1;
         this.scoreText.setText("Score: " + this.score);
+
 
         coin.disableBody(true, true);
 
