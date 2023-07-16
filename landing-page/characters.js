@@ -1,10 +1,15 @@
 const selectBoy = document.querySelector(".select-boy");
 const selectGirl = document.querySelector(".select-girl");
 const selectMario = document.querySelector(".select-mario");
+const BoyCharacter = document.querySelector(".boy-character");
+const GirlCharater = document.querySelector(".girl-character");
+const MarioCharater = document.querySelector(".mario-character");
+const SelectedClass = document.querySelectorAll(".Selected");
 
 selectBoy.addEventListener("click", () => {
+  SelectedClass.classList.remove("Selected");
   localStorage.clear();
-  selectBoy.classList.toggle("Selected");
+  BoyCharacter.classList.toggle("Selected");
   selectBoy.innerHTML = "Seleted";
   var boydata = {
     right: {
@@ -39,8 +44,9 @@ selectBoy.addEventListener("click", () => {
 });
 
 selectGirl.addEventListener("click", () => {
+  SelectedClass.classList.remove("Selected");
   localStorage.clear();
-  selectBoy.classList.toggle("Selected");
+  MarioCharater.classList.toggle("Selected");
   selectBoy.innerHTML = "Seleted";
 
   const girldata = {
@@ -74,6 +80,7 @@ selectGirl.addEventListener("click", () => {
 });
 
 selectMario.addEventListener("click", () => {
+  SelectedClass.classList.remove("Selected");
   localStorage.clear();
   selectBoy.classList.toggle("Selected");
   selectBoy.innerHTML = "Seleted";
