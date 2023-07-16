@@ -57,7 +57,7 @@ gameScene.create = function () {
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
   this.physics.add.collider(this.enemy, floor_layer);
-  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);// when player and enemy overlap (function line 156)
   this.enemy.setDisplaySize(100, 80);
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
@@ -92,10 +92,6 @@ gameScene.create = function () {
     repeat: -1,
   });
 
-  // Get the number of frames in the "gamePiece" texture
-
-  console.log(this.spritesheet);
-
   this.anims.create({
     key: "right",
     frames: this.anims.generateFrameNumbers("gamePiece", {
@@ -105,17 +101,15 @@ gameScene.create = function () {
     frameRate: 10,
     repeat: -1,
   });
-  this.anims.create({
-    key: "up",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 12,
-      end: 15,
-    }),
-    frameRate: 10,
-    repeat: -1,
-    frameWidth: 32,
-    frameHeight: 32,
-  });
+  // this.anims.create({
+  //   key: "up",
+  //   frames: this.anims.generateFrameNumbers("gamePiece", {
+  //     start: 12,
+  //     end: 15,
+  //   }),
+  //   frameRate: 10,
+  //   repeat: -1,
+  // });
   this.anims.create({
     key: "down",
     frames: this.anims.generateFrameNumbers("gamePiece", {
@@ -158,6 +152,7 @@ gameScene.update = function () {
     this.player.anims.stop();
   }
 };
+//overlap function
 gameScene.onOverlap = function (player, enemy) {
   console.log("hi");
 };
