@@ -1,17 +1,24 @@
-const selectBoy = document.querySelector(".select-boy");
-const selectGirl = document.querySelector(".select-girl");
-const selectMario = document.querySelector(".select-mario");
 const BoyCharacter = document.querySelector(".boy-character");
 const GirlCharater = document.querySelector(".girl-character");
 const MarioCharater = document.querySelector(".mario-character");
-const SelectedClass = document.querySelectorAll(".Selected");
-selectBoy.addEventListener("click", () => {
-  if (SelectedClass > 0) {
-    SelectedClass.classList.remove("Selected");
+const SelectedClass = document.querySelectorAll(".selected");
+console.log(SelectedClass);
+BoyCharacter.addEventListener("click", () => {
+  const SelectedClass = document.getElementsByClassName("selected");
+
+  if (SelectedClass.length > 0) {
+    for (i = 0; i < SelectedClass.length; i++) {
+      if (SelectedClass[i].classList.contains("selected")) {
+        SelectedClass[i].classList.remove("selected");
+      }
+    }
+  }
+  if (!BoyCharacter.classList.contains("selected")) {
+    BoyCharacter.classList.add("selected");
+  } else {
+    BoyCharacter.classList.remove("selected");
   }
   localStorage.clear();
-  BoyCharacter.classList.toggle("Selected");
-  selectBoy.innerHTML = "Seleted";
   var boydata = {
     right: {
       image: "boy-right.png",
@@ -44,13 +51,27 @@ selectBoy.addEventListener("click", () => {
   localStorage.setItem("playerData", ConvertData);
 });
 
-selectGirl.addEventListener("click", () => {
-  if (SelectedClass > 0) {
-    SelectedClass.classList.remove("Selected");
+GirlCharater.addEventListener("click", () => {
+  const SelectedClass = document.getElementsByClassName("selected");
+
+  console.log(SelectedClass.length);
+
+  if (SelectedClass.length > 0) {
+    for (i = 0; i < SelectedClass.length; i++) {
+      if (SelectedClass[i].classList.contains("selected")) {
+        SelectedClass[i].classList.remove("selected");
+      }
+    }
+  }
+
+  if (!GirlCharater.classList.contains("selected")) {
+    GirlCharater.classList.add("selected");
+  } else {
+    GirlCharater.classList.remove("selected");
   }
   localStorage.clear();
-  MarioCharater.classList.toggle("Selected");
-  selectBoy.innerHTML = "Seleted";
+  //   GirlCharater.classList.toggle("selected");
+  //   selectGirl.innerHTML = "Seleted";
 
   const girldata = {
     right: {
@@ -82,13 +103,24 @@ selectGirl.addEventListener("click", () => {
   localStorage.setItem("playerData", ConvertData);
 });
 
-selectMario.addEventListener("click", () => {
-  if (SelectedClass > 0) {
-    SelectedClass.classList.remove("Selected");
+MarioCharater.addEventListener("click", () => {
+  const SelectedClass = document.getElementsByClassName("selected");
+
+  if (SelectedClass.length > 0) {
+    for (i = 0; i < SelectedClass.length; i++) {
+      if (SelectedClass[i].classList.contains("selected")) {
+        SelectedClass[i].classList.remove("selected");
+      }
+    }
+  }
+  if (!MarioCharater.classList.contains("selected")) {
+    MarioCharater.classList.add("selected");
+  } else {
+    MarioCharater.classList.remove("selected");
   }
   localStorage.clear();
-  selectBoy.classList.toggle("Selected");
-  selectBoy.innerHTML = "Seleted";
+  //   MarioCharater.classList.toggle("selected");
+  //   selectMario.innerHTML = "Seleted";
 
   const mariodata = {
     right: {

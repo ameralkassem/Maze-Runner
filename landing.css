@@ -194,26 +194,3 @@ footer{
     font-size: 20px;
 }
 
-.characters-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 80px;
-    padding: 50px;
-}
-
-.card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 40px;
-    font-size: 40px;
-    border: 1px solid black;
-    padding: 70px;
-}
-
-.characters-image {
-    width: 300px;
-    height: 300px;
-}
