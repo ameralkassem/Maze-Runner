@@ -1,0 +1,22 @@
+
+
+.characters-page1{
+    background-image: url("images/maze-2.jpg");
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 20px;
+}
+
+.card{
+    background-color: white ;
+    border-radius: 10px;
+}
+
+.card button:hover{
+    background-color:  #3498db;
+    border-radius: 10px;
+    transform: scale(1.2);
+}

@@ -15,3 +15,25 @@ to_start.addEventListener("click", scrollDownStart);
 
 const to_aboutus = document.querySelector(".about-us-scroll");
 to_aboutus.addEventListener("click", scrollDownAbout);
+
+
+// sign in 
+const playerNameInput = document.getElementById('player-name');
+const playerEmailInput = document.getElementById('player-email');
+const startGameButton = document.getElementById('start-game-btn');
+
+function checkInputs() {
+    const playerNameValue = playerNameInput.value.trim();
+    const playerEmailValue = playerEmailInput.value.trim();
+
+        
+    if (playerNameValue !== '' && playerEmailValue !== '') {
+        startGameButton.disabled = false;
+    } else {
+        startGameButton.disabled = true;
+    }
+}
+
+    
+playerNameInput.addEventListener('input', checkInputs);
+playerEmailInput.addEventListener('input', checkInputs);
