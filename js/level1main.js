@@ -2,7 +2,7 @@
 let gameScene = new Phaser.Scene("level1");
 gameScene.score = 0;
 
-// const data = JSON.parse(localStorage.getItem("playerData"))
+const data = JSON.parse(localStorage.getItem("playerData"));
 
 gameScene.preload = function () {
   // the below code is to load the images
@@ -10,21 +10,23 @@ gameScene.preload = function () {
   this.load.image("star", "assets/images/star.png");
   this.load.image("player", "assets/images/frontsprite.png"); //data.palyer.image
   this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
-  this.load.spritesheet("gamePiece", "assets/images/allsprite.png", {
-    frameWidth: 60,
-    frameHeight: 65,
+  this.load.spritesheet("gamePiece", `assets/images/${data.image}`, {
+    frameWidth: data.frameWidth,
+    frameHeight: data.frameHeight,
   }); //data.image , data.frameWidth , data.farmeHeight
 
-  // this.load.spritesheet("gamePiece-left", "assets/images/allsprite.png", {
-  //   frameWidth: 60,
-  //   frameHeight: 65,
-  // }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
-
-  // this.load.spritesheet("gamePiece-right", "assets/images/allsprite.png", {
-  //   frameWidth: 60,
-  //   frameHeight: 65,
-  // }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
-
+  this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
+    frameWidth: data.left.frameWidth,
+    frameHeight: data.left.frameHeight,
+  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
+    frameWidth: data.right.frameWidth,
+    frameHeight: data.right.frameHeight,
+  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
+    frameWidth: data.up.frameWidth,
+    frameHeight: data.up.farmeHeight,
+  });
   // the below code is to load the map
   this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level1.json");
   // the below code is to load the cup image
@@ -56,9 +58,9 @@ gameScene.create = function () {
   // the below code is to set the movement of the sprite
   this.anims.create({
     key: "left",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 7,
-      end: 4,
+    frames: this.anims.generateFrameNumbers("leftPieces", {
+      start: data.left.leftAnims.start,
+      end: data.left.leftAnims.end,
     }), //gamePieces-left , data.left.leftAnims.start , data.left.leftAnims.end
     frameRate: 10,
     repeat: -1,
@@ -66,19 +68,39 @@ gameScene.create = function () {
 
   this.anims.create({
     key: "right",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 8,
-      end: 11,
+    frames: this.anims.generateFrameNumbers("RightPieces", {
+      start: data.right.rightAnims.start,
+      end: data.right.rightAnims.end,
     }), //gamePieces-right , data.right.rightAnims.start , data.right.rightAnims.end
     frameRate: 10,
     repeat: -1,
   });
 
+  // this.anims.create({
+  //   key: "up",
+  //   frames: this.anims.generateFrameNumbers("gamePiece-up", {
+  //     start: data.up.upAnims.start,
+  //     end: data.up.upAnims.end,
+  //   }),
+  //   frameRate: 10,
+  //   repeat: -1,
+  // });
+
+  // this.anims.create({
+  //   key: "down",
+  //   frames: this.anims.generateFrameNumbers("gamePiece", {
+  //     start: data.downAnims.start,
+  //     end: data.downAnims.end,
+  //   }),
+  //   frameRate: 10,
+  //   repeat: -1,
+  // });
+
   this.anims.create({
     key: "stop",
     frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 0, //data.stopAnims.start
-      end: 0, //data.stopAnims.end
+      start: data.stopAnims.start, //data.stopAnims.start
+      end: data.stopAnims.end, //data.stopAnims.end
     }),
     frameRate: 10,
     repeat: -1,
@@ -166,9 +188,6 @@ gameScene.createStars = function () {
   });
 };
 
-
-
-
 gameScene.update = function (time, delta) {
   // Control the player with left or right keys
   if (this.cursors.left.isDown) {
@@ -183,13 +202,13 @@ gameScene.update = function (time, delta) {
     }
   } else {
     this.player.setVelocityX(0);
-      // this.player.play("stop", true);
-
   }
 
   // Jump control
   if (this.cursors.up.isDown && this.player.body.onFloor() && !this.isJumping) {
     this.player.setVelocityY(-this.jumpForce);
+    this.player.play("right", true);
+
     this.isJumping = true;
   }
 
@@ -197,7 +216,6 @@ gameScene.update = function (time, delta) {
   if (this.cursors.up.isUp && this.isJumping) {
     if (this.player.body.velocity.y < -50) {
       this.player.setVelocityY(-50);
-
     }
     this.isJumping = false;
   }
@@ -220,10 +238,8 @@ gameScene.update = function (time, delta) {
   // Check for collision between the player and stars
   this.physics.overlap(this.player, this.stars, this.collectStar, null, this);
 
-
   // Call the updateTimer function every frame
   this.updateTimer();
-
 };
 
 function formatTime(milliseconds) {
