@@ -29,6 +29,7 @@ gameScene_level2.create = function () {
     this.player = this.physics.add.sprite(0, 20, "player");
     this.player.setScale(0.8);
     this.player.setCollideWorldBounds(true);
+    this.player.body.gravity.y = 500;
     this.physics.add.collider(this.player, floor_layer);
     this.physics.add.collider(this.coins, floor_layer);
     this.se_cup = this.physics.add.sprite(1250, 750, "cup");
@@ -123,10 +124,14 @@ gameScene_level2.createCoins = function () {
     this.coins = this.physics.add.group();
 
     const coinPositions = [
+        { x : 500, y: 20},
+        { x : 1200, y: 100},
+        { x : 500, y : 700},
+        { x : 500, y : 500 },
         { x: 100, y: 320 },
         { x: 390, y: 220 },
         { x: 630, y: 300 },
-        { x : 890, y : 600},
+        { x : 890, y: 600},
         { x: 890, y: 170 },
     ];
 
