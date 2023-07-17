@@ -1,7 +1,7 @@
 let gameScene_level2 = new Phaser.Scene("Game");
 
-gameScene_level2.score = 0;
-let index = 0; // Initialize index variable
+gameScene_level2.score = 0; // Initialize score variable
+gameScene_level2.index = 0; // Initialize index variable
 
 gameScene_level2.preload = function () {
     this.load.image("wall-image", "assets/images/maptaler.png");
@@ -30,10 +30,9 @@ gameScene_level2.create = function () {
     this.player.body.gravity.y = 500;
     this.physics.add.collider(this.player, floor_layer);
     this.physics.add.collider(this.coins, floor_layer);
-    this.se_cup = this.physics.add.sprite(1250, 750, "cup");
+    this.se_cup = this.physics.add.sprite(1250, 950, "cup");
     this.se_cup.setImmovable(true);
-    this.se_cup.setScale(0.2, 0.18);
-    this.se_cup.setCollideWorldBounds(true);
+    this.se_cup.setScale(0.4, 0.26);
 
     this.physics.add.collider(this.player, this.se_cup, this.nextLevel, null, this);
     this.physics.add.collider(this.se_cup, floor_layer);
@@ -133,23 +132,9 @@ gameScene_level2.create = function () {
 gameScene_level2.createCoins = function () {
     this.coins = this.physics.add.group();
 
-    const coinPositions = [
-        { x: 500, y: 20 },
-        { x: 1200, y: 100 },
-        { x: 500, y: 700 },
-        { x: 500, y: 500 },
-        { x: 100, y: 320 },
-        { x: 390, y: 220 },
-        { x: 670, y: 300 },
-        { x: 890, y: 600 },
-        { x: 890, y: 170 },
-    ];
-
-    coinPositions.forEach((position) => {
-        const coin = this.coins.create(position.x, position.y, "coin");
-        coin.setBounce(Phaser.Math.FloatBetween(0.5, 0.8));
-        coin.setDisplaySize(50, 50);
-    });
+    const coin = this.coins.create(500, 20, "coin");
+    coin.setBounce(Phaser.Math.FloatBetween(0.5, 0.8));
+    coin.setDisplaySize(50, 50);
 
 };
 
@@ -222,7 +207,32 @@ gameScene_level2.update = function () {
 
 
     gameScene_level2.collectCoin = function (player, coin) {
-        let coin_arr = [{ x: 500, y: 100 }]
+        gameScene_level2.index += 1;
+        gameScene_level2.time.delayedCall(300, function () {
+            const coinPositions = [
+                { x: 500, y: 20 },
+                { x: 1200, y: 100 },
+                // { x: 500, y: 700 },
+                // { x: 500, y: 500 },
+                // { x: 100, y: 320 },
+                // { x: 390, y: 220 },
+                // { x: 670, y: 300 },
+                // { x: 890, y: 600 },
+                // { x: 890, y: 170 },
+            ];
+            if (gameScene_level2.index < coinPositions.length) {
+                const coin = gameScene_level2.coins.create(coinPositions[gameScene_level2.index].x, coinPositions[gameScene_level2.index].y, "coin");
+                coin.setBounce(Phaser.Math.FloatBetween(0.5, 0.8));
+                coin.setDisplaySize(50, 50);
+            }
+            else {
+                gameScene_level2.physics.add.sprite(1250, 50, "cup");
+                gameScene_level2.se_cup.setImmovable(true);
+                gameScene_level2.se_cup.setDisplaySize(100, 100);
+            }
+        });
+
+
         this.sound.play("coinSound");
         this.score += 1;
         this.scoreText.setText("Score: " + this.score);
