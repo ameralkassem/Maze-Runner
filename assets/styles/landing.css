@@ -1,25 +1,27 @@
-
-*{
+* {
     box-sizing: border-box;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
 html {
     scroll-behavior: smooth;
 }
-.container{
+
+.container {
     width: 100%;
     height: 100%
 }
 
 .parallax-1 {
-    background-image: url("images/pexels-francesco-ungaro-1670977.jpg");
+    background-image: url("../images/pexels-francesco-ungaro-1670977.jpg");
     min-height: 100vh;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
-.navbar{
+
+.navbar {
     display: flex;
     justify-content: space-between;
     padding: 40px 80px;
@@ -27,6 +29,7 @@ html {
     align-items: center;
     position: fixed;
 }
+
 .logo img {
     height: 86px;
     width: 86px;
@@ -40,22 +43,22 @@ html {
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-    margin-bottom: 20px; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
 }
 
-.left-side-navbar{ 
+.left-side-navbar {
     font-size: 32px;
     font-weight: 900;
 
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); 
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     font-size: 24px;
     font-weight: 600;
     line-height: 1.6;
-    color: #333;  
+    color: #333;
     cursor: pointer;
 }
 
@@ -65,7 +68,7 @@ html {
     align-items: center;
 }
 
-#start-game-btn{
+#start-game-btn {
     padding: 20px;
     margin-top: 30px;
     border: none;
@@ -75,23 +78,25 @@ html {
     text-align: center;
     text-decoration: none;
     color: white;
-    }
+}
 
 
-.hero-section{
+.hero-section {
     align-items: center;
     padding-top: 120px;
     padding-bottom: 60px;
     display: flex;
     justify-content: center;
 }
-.about-us{
+
+.about-us {
     background-color: rgb(189, 178, 178);
     padding: 70px;
     font-size: 20px;
 }
+
 .parallax-2 {
-    background-image: url("images/pexels-max-ravier-10290189.jpg");
+    background-image: url("../images/pexels-max-ravier-10290189.jpg");
     min-height: 100vh;
     background-attachment: fixed;
     background-position: center;
@@ -100,12 +105,13 @@ html {
 
 }
 
-.start-game-form{
+.start-game-form {
     padding: 70px;
     display: flex;
     justify-content: center;
 }
-.input-form{
+
+.input-form {
     background-color: rgba(50, 45, 45, 0.8);
     width: 50%;
     display: flex;
@@ -115,18 +121,19 @@ html {
     gap: 10px;
     border-radius: 5px;
 }
-.info{
+
+.info {
     display: flex;
     flex-direction: column;
     padding: 20px;
     font-size: 20px;
 }
 
-label{
+label {
     color: white;
 }
 
-.input{
+.input {
     margin-top: 15px;
     height: 50px;
     border: none;
@@ -137,15 +144,16 @@ label{
 }
 
 .parallax-3 {
-    background-image: url("images/pexels-tom-fisk-1904198.jpg");
+    background-image: url("../images/pexels-tom-fisk-1904198.jpg");
     min-height: 100vh;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
 }
+
 .about-game {
-    
+
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -153,6 +161,14 @@ label{
     gap: 50px;
     padding: 70px;
     flex-wrap: wrap;
+}
+
+.game-description {
+    text-align: center;
+    font-size: 40px;
+    background-color: gray;
+    padding: 40px;
+
 }
 
 .game-guide {
@@ -170,10 +186,10 @@ label{
     max-width: 400px;
     max-height: 350px;
 }
-footer{
+
+footer {
     background-color: gray;
     padding: 20px;
-    text-align: center; 
+    text-align: center;
     font-size: 20px;
 }
-
