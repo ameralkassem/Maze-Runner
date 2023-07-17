@@ -1,5 +1,5 @@
-const to_aboutus = document.querySelector(".about-us-scroll");
-to_aboutus.addEventListener("click", scrollDownAbout);
+const about_game = document.querySelector(".about-us-scroll");
+about_game.addEventListener("click", scrollDownAbout);
 
 // scroll to about us section function
 function scrollDownAbout() {
@@ -11,10 +11,11 @@ function scrollDownAbout() {
 const playerNameInput = document.getElementById("player-name");
 const playerEmailInput = document.getElementById("player-email");
 const startGameButton = document.getElementById("start-game-btn");
+
 function checkInputs() {
   const playerNameValue = playerNameInput.value.trim();
   const playerEmailValue = playerEmailInput.value.trim();
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // regular expression
 
   const isEmailValid = emailRegex.test(playerEmailValue);
 

@@ -1,8 +1,8 @@
 const BoyCharacter = document.querySelector(".boy-character");
-const GirlCharater = document.querySelector(".girl-character");
-const MarioCharater = document.querySelector(".mario-character");
+const GirlCharacter = document.querySelector(".girl-character");
+const MarioCharacter = document.querySelector(".mario-character");
 const SelectedClass = document.querySelectorAll(".selected");
-console.log(SelectedClass);
+
 BoyCharacter.addEventListener("click", () => {
   const SelectedClass = document.getElementsByClassName("selected");
 
@@ -19,7 +19,10 @@ BoyCharacter.addEventListener("click", () => {
     BoyCharacter.classList.remove("selected");
   }
   localStorage.clear();
-  var boydata = {
+  const boydata = {
+    player: {
+      image: "player-boy.png",
+    },
     right: {
       image: "boy-right.png",
       frameWidth: 55,
@@ -27,19 +30,19 @@ BoyCharacter.addEventListener("click", () => {
       rightAnims: { start: 0, end: 3 },
     },
     left: {
-      image: "boy.png",
+      image: "boy-pieces.png",
       frameWidth: 55,
       frameHeight: 55.5,
       leftAnims: { start: 11, end: 9 },
     },
     up: {
-      image: "boy.png",
+      image: "boy-pieces.png",
       frameWidth: 55,
       frameHeight: 80,
       downAnims: { start: 0, end: 2 },
       upAnims: { start: 3, end: 5 },
     },
-    image: "boy.png",
+    image: "boy-pieces.png",
     frameWidth: 55,
     frameHeight: 80,
     downAnims: { start: 0, end: 2 },
@@ -51,7 +54,7 @@ BoyCharacter.addEventListener("click", () => {
   localStorage.setItem("playerData", ConvertData);
 });
 
-GirlCharater.addEventListener("click", () => {
+GirlCharacter.addEventListener("click", () => {
   const SelectedClass = document.getElementsByClassName("selected");
 
   console.log(SelectedClass.length);
@@ -72,36 +75,40 @@ GirlCharater.addEventListener("click", () => {
   localStorage.clear();
 
   const girldata = {
+    player: {
+      image: "player-girl.png",
+    },
     right: {
-      image: "girl.png",
+      image: "girl-pieces.png",
       frameWidth: 47,
       frameHeight: 65,
       rightAnims: { start: 4, end: 5 },
     },
     left: {
-      image: "girl.png",
+      image: "girl-pieces.png",
       frameWidth: 47,
       frameHeight: 65,
       leftAnims: { start: 8, end: 9 },
     },
     up: {
-      image: "girl.png",
+      image: "girl-pieces.png",
       frameWidth: 47,
       frameHeight: 65,
       upAnims: { start: 12, end: 13 },
     },
-    image: "girl.png",
+    image: "girl-pieces.png",
     frameWidth: 47,
     frameHeight: 65,
     downAnims: { start: 0, end: 3 },
     stopAnims: { start: 1, end: 1 },
   };
+
   let ConvertData = JSON.stringify(girldata);
 
   localStorage.setItem("playerData", ConvertData);
 });
 
-MarioCharater.addEventListener("click", () => {
+MarioCharacter.addEventListener("click", () => {
   const SelectedClass = document.getElementsByClassName("selected");
 
   if (SelectedClass.length > 0) {
@@ -119,14 +126,17 @@ MarioCharater.addEventListener("click", () => {
   localStorage.clear();
 
   const mariodata = {
+    player: {
+      image: "mario-player.png",
+    },
     right: {
-      image: "all.png",
+      image: "mario-pieces.png",
       frameWidth: 60,
       frameHeight: 65,
       rightAnims: { start: 8, end: 11 },
     },
     left: {
-      image: "all.png",
+      image: "mario-pieces.png",
       frameWidth: 60,
       frameHeight: 65,
       leftAnims: { start: 7, end: 4 },
@@ -137,7 +147,7 @@ MarioCharater.addEventListener("click", () => {
       frameHeight: 65,
       upAnims: { start: 0, end: 3 },
     },
-    image: "all.png",
+    image: "mario-pieces.png",
     frameWidth: 60,
     frameHeight: 65,
     downAnims: { start: 0, end: 3 },
