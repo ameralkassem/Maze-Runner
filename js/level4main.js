@@ -25,11 +25,11 @@ gameScene.preload = function () {
   this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
     frameWidth: data.left.frameWidth,
     frameHeight: data.left.frameHeight,
-  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  });
   this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
     frameWidth: data.right.frameWidth,
     frameHeight: data.right.frameHeight,
-  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  }); 
   this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
     frameWidth: data.up.frameWidth,
     frameHeight: data.up.frameHeight,

@@ -3,7 +3,7 @@
 }
 
 
-.characters-page1 {
+.characters-page {
     background-image: url("/assets/images/background.jpg");
     min-height: 100vh;
     background-attachment: fixed;
@@ -15,11 +15,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.card {
-    background-color: white;
-    border-radius: 20px;
 }
 
 #lets-play {
@@ -50,11 +45,21 @@
     align-items: center;
     gap: 40px;
     font-size: 40px;
-    padding: 30px;
-    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.422);
     color: rgb(255, 255, 255);
     font-weight: 800;
+    border-radius: 10px;
+    padding: 20px;
+    // transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+        
+        
+.card:hover {
+    transform: translateY(-10px);
+  box-shadow: 0 6px 8px rgb(255, 0, 0);
 }
 
 .characters-image {
@@ -73,3 +78,4 @@ button {
 .selected {
     background-color: rgba(124, 123, 123, 0.84);
 }
+

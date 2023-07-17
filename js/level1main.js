@@ -13,16 +13,16 @@ gameScene.preload = function () {
   this.load.spritesheet("gamePiece", `assets/images/${data.image}`, {
     frameWidth: data.frameWidth,
     frameHeight: data.frameHeight,
-  }); //data.image , data.frameWidth , data.farmeHeight
+  });
 
   this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
     frameWidth: data.left.frameWidth,
     frameHeight: data.left.frameHeight,
-  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  });
   this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
     frameWidth: data.right.frameWidth,
     frameHeight: data.right.frameHeight,
-  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  });
   this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
     frameWidth: data.up.frameWidth,
     frameHeight: data.up.farmeHeight,
@@ -61,7 +61,7 @@ gameScene.create = function () {
     frames: this.anims.generateFrameNumbers("leftPieces", {
       start: data.left.leftAnims.start,
       end: data.left.leftAnims.end,
-    }), //gamePieces-left , data.left.leftAnims.start , data.left.leftAnims.end
+    }),
     frameRate: 10,
     repeat: -1,
   });
@@ -71,36 +71,16 @@ gameScene.create = function () {
     frames: this.anims.generateFrameNumbers("RightPieces", {
       start: data.right.rightAnims.start,
       end: data.right.rightAnims.end,
-    }), //gamePieces-right , data.right.rightAnims.start , data.right.rightAnims.end
+    }),
     frameRate: 10,
     repeat: -1,
   });
 
-  // this.anims.create({
-  //   key: "up",
-  //   frames: this.anims.generateFrameNumbers("gamePiece-up", {
-  //     start: data.up.upAnims.start,
-  //     end: data.up.upAnims.end,
-  //   }),
-  //   frameRate: 10,
-  //   repeat: -1,
-  // });
-
-  // this.anims.create({
-  //   key: "down",
-  //   frames: this.anims.generateFrameNumbers("gamePiece", {
-  //     start: data.downAnims.start,
-  //     end: data.downAnims.end,
-  //   }),
-  //   frameRate: 10,
-  //   repeat: -1,
-  // });
-
   this.anims.create({
     key: "stop",
     frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: data.stopAnims.start, //data.stopAnims.start
-      end: data.stopAnims.end, //data.stopAnims.end
+      start: data.stopAnims.start,
+      end: data.stopAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
