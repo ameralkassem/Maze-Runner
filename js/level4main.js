@@ -73,7 +73,7 @@ gameScene.create = function () {
     padding: 3,
   });
 
-  this.createHearts();
+  this.createHearts(); // Create the hearts
   this.createStars(); // Create the stars
 
   // Add collision between the stars and the map layer
@@ -202,13 +202,16 @@ gameScene.create = function () {
   this.enemy.body.setSize(200, 290);
 
   // setting a trigger so whenever the sprite touch the cup it moves to another map
-  this.triggerObject = this.physics.add.sprite(1350, 800, "cup");
+  this.triggerObject = this.physics.add.sprite(1100, 300, "cup");
   // Make the trigger object immovable
   this.triggerObject.setImmovable(true);
   // Keep the trigger object within the world bounds
   this.triggerObject.setCollideWorldBounds(true);
   // Set the width and height of the cup image
-  this.triggerObject.setDisplaySize(115, 115);
+  this.triggerObject.setDisplaySize(130, 170);
+
+  this.physics.add.collider(this.triggerObject, floor_layer);
+
 
   this.physics.add.collider(
     this.player,
