@@ -2,10 +2,10 @@ let gameScene = new Phaser.Scene("level4");
 gameScene.score = 0;
 gameScene.lives = 3;
 
+const data = JSON.parse(localStorage.getItem("playerData"));
 
 // ================================================================================
 // PRELOAD
-
 
 gameScene.preload = function () {
   this.load.image("myTileset-image", "assets/images/maptaler.png");
@@ -18,12 +18,22 @@ gameScene.preload = function () {
   this.load.audio("countdown", "assets/sounds/countdown.mp3");
   this.load.audio("playerDeathSound", "assets/sounds/playerDeath.mp3");
   this.load.audio("gameover", "assets/sounds/gameOver.mp3");
-  this.load.spritesheet("gamePiece", "assets/images/all-player-pieces.png",
-
-    {
-      frameWidth: 60,
-      frameHeight: 65,
-    });
+  this.load.spritesheet("gamepieces", `assets/images/${data.image}`, {
+    frameWidth: data.frameWidth,
+    frameHeight: data.frameHeight,
+  });
+  this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
+    frameWidth: data.left.frameWidth,
+    frameHeight: data.left.frameHeight,
+  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
+    frameWidth: data.right.frameWidth,
+    frameHeight: data.right.frameHeight,
+  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
+    frameWidth: data.up.frameWidth,
+    frameHeight: data.up.frameHeight,
+  });
   this.load.spritesheet("enemyPiece", "assets/images/fire-circle.png", {
     frameWidth: 60,
     frameHeight: 110,
@@ -31,7 +41,6 @@ gameScene.preload = function () {
 
   this.load.tilemapTiledJSON("Gamemap", "assets/map/gameScene_level4.json");
 };
-
 
 // ================================================================================
 // CREATE
@@ -57,22 +66,18 @@ gameScene.create = function () {
 
   this.player.body.setSize(50, 60);
 
-  gameScene.scoreText = this.add.text(16, 10, `Score: ${gameScene.score}`,
-    {
-      fontSize: '32px',
-      fill: '#ffffff',
-      backgroundColor: '#000000',
-      padding: 3
-    });
-
+  gameScene.scoreText = this.add.text(16, 10, `Score: ${gameScene.score}`, {
+    fontSize: "32px",
+    fill: "#ffffff",
+    backgroundColor: "#000000",
+    padding: 3,
+  });
 
   this.createHearts();
   this.createStars(); // Create the stars
 
   // Add collision between the stars and the map layer
   this.physics.add.collider(this.stars, floor_layer);
-
-
 
   // Set the time limit (in milliseconds)
   const timeLimit = 90000; // 90 seconds
@@ -126,18 +131,14 @@ gameScene.create = function () {
         ":" +
         millisecondsRemaining.toString().substr(0, 3)
       );
-    }
-
-    else {
+    } else {
       return (
         minutes.toString().padStart(2, "0") +
         ":" +
         seconds.toString().padStart(2, "0")
       );
     }
-
   }
-
 
   gameScene.collectStar = function (player, star) {
     // Play a sound when a star is collected
@@ -148,11 +149,7 @@ gameScene.create = function () {
 
     // Remove the star from the group and destroy it
     star.disableBody(true, true);
-
   };
-
-
-
 
   // enemy 1
   this.enemy = this.physics.add.sprite(643, 20, "enemy");
@@ -179,7 +176,7 @@ gameScene.create = function () {
   this.enemy.setBounce(1);
   this.enemy.setCollideWorldBounds(true);
   this.physics.add.collider(this.enemy, floor_layer);
-  this.physics.add.overlap(this.enemy, this.player, this.onOverlap);// when player and enemy overlap (function line 156)
+  this.physics.add.overlap(this.enemy, this.player, this.onOverlap); // when player and enemy overlap (function line 156)
   this.enemy.setDisplaySize(100, 80);
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
@@ -204,8 +201,6 @@ gameScene.create = function () {
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
 
-
-
   // setting a trigger so whenever the sprite touch the cup it moves to another map
   this.triggerObject = this.physics.add.sprite(1350, 800, "cup");
   // Make the trigger object immovable
@@ -215,15 +210,19 @@ gameScene.create = function () {
   // Set the width and height of the cup image
   this.triggerObject.setDisplaySize(115, 115);
 
-  this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
-
-
+  this.physics.add.collider(
+    this.player,
+    this.triggerObject,
+    this.nextLevel,
+    null,
+    this
+  );
 
   this.anims.create({
     key: "left",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 7,
-      end: 4,
+    frames: this.anims.generateFrameNumbers("leftPieces", {
+      start: data.left.leftAnims.start,
+      end: data.left.leftAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -231,9 +230,9 @@ gameScene.create = function () {
 
   this.anims.create({
     key: "right",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 8,
-      end: 11,
+    frames: this.anims.generateFrameNumbers("RightPieces", {
+      start: data.right.rightAnims.start,
+      end: data.right.rightAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -241,25 +240,38 @@ gameScene.create = function () {
 
   this.anims.create({
     key: "down",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 0,
-      end: 3,
+    frames: this.anims.generateFrameNumbers("gamepieces", {
+      start: data.downAnims.start,
+      end: data.downAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
   });
+
+  this.anims.create({
+    key: "up",
+    frames: this.anims.generateFrameNumbers("UPPieces", {
+      start: data.up.upAnims.start,
+      end: data.up.upAnims.end,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
   this.anims.create({
     key: "stop",
-    frames: [{ key: "player", frame: 0 }],
+    frames: this.anims.generateFrameNumbers("gamepieces", {
+      start: data.stopAnims.start,
+      end: data.stopAnims.end,
+    }),
     frameRate: 10,
+    repeat: -1,
   });
 
   this.cursors = this.input.keyboard.createCursorKeys();
 };
 
-
 gameScene.createHearts = function () {
-
   let life = gameScene.lives;
 
   // Create a group to hold the hearts
@@ -275,9 +287,6 @@ gameScene.createHearts = function () {
   });
 };
 
-
-
-
 gameScene.restartLevel = function () {
   const scene = gameScene;
 
@@ -287,17 +296,15 @@ gameScene.restartLevel = function () {
   // remove one heart
   gameScene.lives -= 1;
 
-
-
   // Restart level
   const gameOverText = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY - 100,
     "Time's up!",
     {
-      font: 'bold 80px Arial',
-      fill: '#ff0000',
-      backgroundColor: '#00000',
+      font: "bold 80px Arial",
+      fill: "#ff0000",
+      backgroundColor: "#00000",
       padding: 15,
     }
   );
@@ -314,11 +321,10 @@ gameScene.restartLevel = function () {
     scene.cameras.main.centerY - 40,
     "x" + gameScene.lives,
     {
-      font: '70px Arial',
-      fill: '#ffff',
+      font: "70px Arial",
+      fill: "#ffff",
     }
   );
-
 
   gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
@@ -356,10 +362,8 @@ gameScene.createStars = function () {
   });
 };
 
-
 // ================================================================================
 // UPDATE
-
 
 gameScene.update = function () {
   if (this.cursors.left.isDown) {
@@ -374,8 +378,10 @@ gameScene.update = function () {
     }
   } else if (this.cursors.up.isDown) {
     this.player.setVelocityY(-200);
+    this.player.anims.play("up", true);
   } else if (this.cursors.down.isDown) {
     this.player.setVelocityY(200);
+
     if (!this.player.body.onFloor()) {
       this.player.anims.play("down", true);
     }
@@ -388,7 +394,6 @@ gameScene.update = function () {
   // Check for collision between the player and stars
   this.physics.overlap(this.player, this.stars, this.collectStar, null, this);
 
-
   // Check if lives are 0
   if (gameScene.lives === 0) {
     // Remove Heart
@@ -398,7 +403,7 @@ gameScene.update = function () {
     gameScene.sound.stopByKey("countdown");
 
     //Delay Game Over Sound
-    this.time.delayedCall(100, function () { });
+    this.time.delayedCall(100, function () {});
     if (this.isGameOverPlaying == false) {
       gameScene.sound.play("gameover");
       this.isGameOverPlaying = true;
@@ -413,36 +418,31 @@ gameScene.update = function () {
       this.nextLevel();
     }
 
-
     const gameOverText = this.add.text(
       this.cameras.main.centerX,
       this.cameras.main.centerY - 100,
-      "Game Over!", {
-      font: 'bold 80px Arial',
-      fill: '#ff0000',
-      backgroundColor: '#00000',
-      padding: 15,
-    }
+      "Game Over!",
+      {
+        font: "bold 80px Arial",
+        fill: "#ff0000",
+        backgroundColor: "#00000",
+        padding: 15,
+      }
     );
 
     gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
-    // Freeze physics 
+    // Freeze physics
     this.physics.pause();
 
     // Redirect To Landing Page
     this.time.delayedCall(4500, function () {
       window.location.href = "../level1index.html";
-    }
-    );
-
+    });
   }
-
 
   // Call the updateTimer function every frame
   this.updateTimer();
-
-
 };
 //overlap function
 gameScene.onOverlap = function (enemy, player) {

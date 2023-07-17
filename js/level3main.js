@@ -1,9 +1,9 @@
 let gameScene = new Phaser.Scene("level3");
 gameScene.score = 0;
 gameScene.lives = 3;
+const data = JSON.parse(localStorage.getItem("playerData"));
 
 gameScene.preload = function () {
-
   // the below code is to load the images of the game
   this.load.image("myTileset-image", "assets/images/maptaler.png");
   this.load.image("star", "assets/images/star.png");
@@ -14,9 +14,21 @@ gameScene.preload = function () {
   this.load.audio("countdown", "assets/sounds/countdown.mp3");
   this.load.audio("gameover", "assets/sounds/gameOver.mp3");
   this.load.audio("playerDeathSound", "assets/sounds/playerDeath.mp3");
-  this.load.spritesheet("gamePiece", "assets/images/allsprite.png", {
-    frameWidth: 60,
-    frameHeight: 65,
+  this.load.spritesheet("gamepieces", `assets/images/${data.image}`, {
+    frameWidth: data.frameWidth,
+    frameHeight: data.frameHeight,
+  });
+  this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
+    frameWidth: data.left.frameWidth,
+    frameHeight: data.left.frameHeight,
+  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
+    frameWidth: data.right.frameWidth,
+    frameHeight: data.right.frameHeight,
+  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
+    frameWidth: data.up.frameWidth,
+    frameHeight: data.up.frameHeight,
   });
   this.load.spritesheet("enemyPiece", "assets/images/fire-circle.png", {
     frameWidth: 60,
@@ -29,13 +41,11 @@ gameScene.preload = function () {
   this.load.image("cup", "assets/images/cup.png");
 };
 
-
 gameScene.isGameOverPlaying = false;
 
 gameScene.create = function () {
-
-  // the below code is to show map with the walls , herbs, etc and without allowing 
-  // the the player to move in it 
+  // the below code is to show map with the walls , herbs, etc and without allowing
+  // the the player to move in it
   gameScene.sound.stopAll();
   const map = this.make.tilemap({ key: "wallmap" });
   const tileset = map.addTilesetImage("map", "myTileset-image");
@@ -55,15 +65,13 @@ gameScene.create = function () {
   this.physics.add.collider(this.player, layer);
   this.physics.add.collider(this.player, layer2);
 
-
-  // the below code is used show the game score 
-  gameScene.scoreText = this.add.text(16, 10, `Score: ${gameScene.score}`,
-    {
-      fontSize: '32px',
-      fill: '#ffffff',
-      backgroundColor: '#000000',
-      padding: 3
-    });
+  // the below code is used show the game score
+  gameScene.scoreText = this.add.text(16, 10, `Score: ${gameScene.score}`, {
+    fontSize: "32px",
+    fill: "#ffffff",
+    backgroundColor: "#000000",
+    padding: 3,
+  });
 
   this.createHearts(); // Create the hearts
   this.createStars(); // Create the stars
@@ -78,13 +86,12 @@ gameScene.create = function () {
   this.enemy.body.gravity.y = -150;
   this.enemy.body.setSize(200, 290);
 
-
-  // the below code is related to the movement of the sprite based on keyboard keys and allsprite.png
+  // the below code is related to the movement of the sprite based on keyboard keys and player pieces
   this.anims.create({
     key: "left",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 7,
-      end: 4,
+    frames: this.anims.generateFrameNumbers("leftPieces", {
+      start: data.left.leftAnims.start,
+      end: data.left.leftAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -92,9 +99,29 @@ gameScene.create = function () {
 
   this.anims.create({
     key: "right",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 8,
-      end: 11,
+    frames: this.anims.generateFrameNumbers("RightPieces", {
+      start: data.right.rightAnims.start,
+      end: data.right.rightAnims.end,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "down",
+    frames: this.anims.generateFrameNumbers("gamepieces", {
+      start: data.downAnims.start,
+      end: data.downAnims.end,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "up",
+    frames: this.anims.generateFrameNumbers("UPPieces", {
+      start: data.up.upAnims.start,
+      end: data.up.upAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -102,9 +129,9 @@ gameScene.create = function () {
 
   this.anims.create({
     key: "stop",
-    frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 0,
-      end: 0,
+    frames: this.anims.generateFrameNumbers("gamepieces", {
+      start: data.stopAnims.start,
+      end: data.stopAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -121,16 +148,19 @@ gameScene.create = function () {
   this.triggerObject.setCollideWorldBounds(true);
   this.triggerObject.setDisplaySize(130, 130);
 
-  this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
+  this.physics.add.collider(
+    this.player,
+    this.triggerObject,
+    this.nextLevel,
+    null,
+    this
+  );
   this.physics.add.collider(this.triggerObject, layer);
 
   //to create stars
   this.createStars();
 
-
   this.physics.add.collider(this.stars, layer);
-
-
 
   // Set the time limit (in milliseconds)
   const timeLimit = 60000; // 60 seconds
@@ -184,20 +214,15 @@ gameScene.create = function () {
         ":" +
         millisecondsRemaining.toString().substr(0, 3)
       );
-    }
-
-    else {
+    } else {
       return (
         minutes.toString().padStart(2, "0") +
         ":" +
         seconds.toString().padStart(2, "0")
       );
     }
-
   }
-
 };
-
 
 gameScene.restartLevel = function () {
   const scene = gameScene;
@@ -208,17 +233,15 @@ gameScene.restartLevel = function () {
   // remove one heart
   gameScene.lives -= 1;
 
-
-
   // Restart level
   const gameOverText = scene.add.text(
     scene.cameras.main.centerX,
     scene.cameras.main.centerY - 100,
     "Time's up!",
     {
-      font: 'bold 80px Arial',
-      fill: '#ff0000',
-      backgroundColor: '#00000',
+      font: "bold 80px Arial",
+      fill: "#ff0000",
+      backgroundColor: "#00000",
       padding: 15,
     }
   );
@@ -235,11 +258,10 @@ gameScene.restartLevel = function () {
     scene.cameras.main.centerY - 40,
     "x" + gameScene.lives,
     {
-      font: '70px Arial',
-      fill: '#ffff',
+      font: "70px Arial",
+      fill: "#ffff",
     }
   );
-
 
   gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
@@ -252,11 +274,8 @@ gameScene.restartLevel = function () {
   }
 };
 
-
-
 // to create hearts
 gameScene.createHearts = function () {
-
   let life = gameScene.lives;
 
   // Create a group to hold the hearts
@@ -294,9 +313,6 @@ gameScene.createStars = function () {
     star.setDisplaySize(50, 50);
   });
 };
-
-
-
 
 gameScene.update = function (time, delta) {
   // Control the player with left or right keys
@@ -348,10 +364,8 @@ gameScene.update = function (time, delta) {
   // Check for collision between the player and stars
   this.physics.overlap(this.player, this.stars, this.collectStar, null, this);
 
-
   // Call the updateTimer function every frame
   this.updateTimer();
-
 
   // Check if lives are 0
   if (gameScene.lives === 0) {
@@ -362,7 +376,7 @@ gameScene.update = function (time, delta) {
     gameScene.sound.stopByKey("countdown");
 
     //Delay Game Over Sound
-    this.time.delayedCall(100, function () { });
+    this.time.delayedCall(100, function () {});
     if (this.isGameOverPlaying == false) {
       gameScene.sound.play("gameover");
       this.isGameOverPlaying = true;
@@ -371,32 +385,29 @@ gameScene.update = function (time, delta) {
     const gameOverText = this.add.text(
       this.cameras.main.centerX,
       this.cameras.main.centerY - 100,
-      "Game Over!", {
-      font: 'bold 80px Arial',
-      fill: '#ff0000',
-      backgroundColor: '#00000',
-      padding: 15,
-    }
+      "Game Over!",
+      {
+        font: "bold 80px Arial",
+        fill: "#ff0000",
+        backgroundColor: "#00000",
+        padding: 15,
+      }
     );
 
     gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
-    // Freeze physics 
+    // Freeze physics
     this.physics.pause();
 
     // Redirect To Landing Page
     this.time.delayedCall(4500, function () {
       window.location.href = "index.html";
-    }
-    );
-
+    });
   }
 
   // Call the updateTimer function every frame
   this.updateTimer();
-
 };
-
 
 //overlap function
 gameScene.onOverlap = function (enemy, player) {
@@ -405,8 +416,7 @@ gameScene.onOverlap = function (enemy, player) {
   scene.sound.stopByKey("countdown");
 
   // Delay time for 0.5 seconds
-  scene.time.delayedCall(500, function () { });
-
+  scene.time.delayedCall(500, function () {});
 
   // Kill the player
   scene.sound.play("playerDeathSound");
@@ -424,9 +434,9 @@ gameScene.onOverlap = function (enemy, player) {
     scene.cameras.main.centerY - 100,
     "You died!",
     {
-      font: 'bold 80px Arial',
-      fill: '#ff0000',
-      backgroundColor: '#00000',
+      font: "bold 80px Arial",
+      fill: "#ff0000",
+      backgroundColor: "#00000",
       padding: 15,
     }
   );
@@ -443,12 +453,10 @@ gameScene.onOverlap = function (enemy, player) {
     scene.cameras.main.centerY - 40,
     "x " + gameScene.lives,
     {
-      font: '70px Arial',
-      fill: '#ffff',
+      font: "70px Arial",
+      fill: "#ffff",
     }
   );
-
-
 
   gameOverText.setOrigin(0.5); // Set the origin to the center of the text
 
@@ -459,11 +467,7 @@ gameScene.onOverlap = function (enemy, player) {
       scene.scene.restart();
     });
   }
-
 };
-
-
-
 
 gameScene.redirectToLandingPage = function () {
   // Redirect to the landing page
@@ -479,11 +483,9 @@ gameScene.collectStar = function (player, star) {
 
   // Remove the star from the group and destroy it
   star.disableBody(true, true);
-
 };
 
 gameScene.nextLevel = function () {
-
   this.scene.stop();
   window.location.href = "../level4index.html";
 };

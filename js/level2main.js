@@ -1,18 +1,34 @@
 let gameScene_level2 = new Phaser.Scene("Game");
+const data = JSON.parse(localStorage.getItem("playerData"));
 
 gameScene_level2.score = 0; // Initialize score variable
 gameScene_level2.index = 0; // Initialize index variable
+
+console.log(data);
 
 gameScene_level2.preload = function () {
   this.load.image("wall-image", "assets/images/maptaler.png");
   this.load.image("coin", "assets/images/star.png");
   this.load.audio("coinSound", "assets/sounds/collect-star.mp3");
-  this.load.image("player", "assets/images/frontsprite.png");
+  this.load.image("player", `assets/images/frontsprite.png`);
   this.load.image("cup", "assets/images/cup.png");
-  this.load.spritesheet("gamepieces", "assets/images/allsprite.png", {
-    frameWidth: 60,
-    frameHeight: 65,
+  this.load.spritesheet("gamepieces", `assets/images/${data.image}`, {
+    frameWidth: data.frameWidth,
+    frameHeight: data.frameHeight,
   });
+  this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
+    frameWidth: data.left.frameWidth,
+    frameHeight: data.left.frameHeight,
+  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
+    frameWidth: data.right.frameWidth,
+    frameHeight: data.right.frameHeight,
+  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
+    frameWidth: data.up.frameWidth,
+    frameHeight: data.up.frameHeight,
+  });
+
   this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level2.json");
 };
 gameScene_level2.create = function () {
@@ -25,7 +41,7 @@ gameScene_level2.create = function () {
   floor_layer.setCollisionByExclusion(-1, true);
 
   this.player = this.physics.add.sprite(0, 20, "player");
-  this.player.setScale(0.8);
+  this.player.setScale(0.7);
   this.player.setCollideWorldBounds(true);
   this.player.body.gravity.y = 500;
   this.physics.add.collider(this.player, floor_layer);
@@ -97,9 +113,9 @@ gameScene_level2.create = function () {
 
   this.anims.create({
     key: "left",
-    frames: this.anims.generateFrameNumbers("gamepieces", {
-      start: 7,
-      end: 4,
+    frames: this.anims.generateFrameNumbers("leftPieces", {
+      start: data.left.leftAnims.start,
+      end: data.left.leftAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -107,9 +123,9 @@ gameScene_level2.create = function () {
 
   this.anims.create({
     key: "right",
-    frames: this.anims.generateFrameNumbers("gamepieces", {
-      start: 8,
-      end: 11,
+    frames: this.anims.generateFrameNumbers("RightPieces", {
+      start: data.right.rightAnims.start,
+      end: data.right.rightAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -118,8 +134,18 @@ gameScene_level2.create = function () {
   this.anims.create({
     key: "down",
     frames: this.anims.generateFrameNumbers("gamepieces", {
-      start: 0,
-      end: 4,
+      start: data.downAnims.start,
+      end: data.downAnims.end,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  this.anims.create({
+    key: "up",
+    frames: this.anims.generateFrameNumbers("UPPieces", {
+      start: data.up.upAnims.start,
+      end: data.up.upAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -128,8 +154,8 @@ gameScene_level2.create = function () {
   this.anims.create({
     key: "stop",
     frames: this.anims.generateFrameNumbers("gamepieces", {
-      start: 0,
-      end: 0,
+      start: data.stopAnims.start,
+      end: data.stopAnims.end,
     }),
     frameRate: 10,
     repeat: -1,
@@ -191,12 +217,15 @@ gameScene_level2.update = function () {
     }
   } else if (this.cursors.up.isDown) {
     this.player.setVelocityY(-200);
+    this.player.anims.play("up", true);
   } else if (this.cursors.down.isDown) {
     this.player.setVelocityY(200);
     this.player.anims.play("down", true);
   } else {
     this.player.setVelocityX(0);
     this.player.setVelocityY(0);
+    this.player.anims.play("stop");
+
     this.player.anims.stop();
   }
   if (
@@ -267,7 +296,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 200 },
-      debug: false,
+      debug: true,
     },
   },
   scene: gameScene_level2,
