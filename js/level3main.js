@@ -70,7 +70,7 @@ gameScene.create = function () {
 
   // enemy 1
   this.enemy = this.physics.add.sprite(110, 175, "enemy");
-  this.enemy.setBounce(1);
+  this.enemy.setBounce(1.042);
   this.enemy.setCollideWorldBounds(true);
   this.physics.add.collider(this.enemy, layer);
   this.physics.add.overlap(this.enemy, this.player, this.onOverlap);
