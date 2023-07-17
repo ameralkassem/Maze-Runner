@@ -237,7 +237,7 @@ gameScene_level2.update = function () {
     this.player.anims.play("down", true);
   } else {
     this.player.setVelocityX(0);
-    this.player.setVelocityY(0);
+    // this.player.setVelocityY(0);
     this.player.anims.play("stop");
 
     this.player.anims.stop();
