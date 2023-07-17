@@ -39,7 +39,7 @@ gameScene_level2.create = function () {
   floor_layer.setCollisionByExclusion(-1, true);
 
   this.player = this.physics.add.sprite(0, 20, "player");
-  this.player.setScale(0.7);
+  this.player.setScale(0.9);
   this.player.setCollideWorldBounds(true);
   this.player.body.gravity.y = 500;
   this.physics.add.collider(this.player, floor_layer);
@@ -114,9 +114,7 @@ gameScene_level2.create = function () {
         ":" +
         millisecondsRemaining.toString().substr(0, 3)
       );
-    }
-
-    else {
+    } else {
       return (
         minutes.toString().padStart(2, "0") +
         ":" +
@@ -302,7 +300,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 200 },
-      debug: true,
+      debug: false,
     },
   },
   scene: gameScene_level2,
