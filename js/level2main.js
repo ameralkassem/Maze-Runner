@@ -257,7 +257,7 @@ gameScene_level2.update = function () {
         { x: 1200, y: 100 }, // 7
         { x: 670, y: 300 }, // 8
         { x: 390, y: 220 }, // 9
-        { x: 100, y: 330 }, // 10
+        { x: 90, y: 330 }, // 10
       ];
       if (gameScene_level2.index < coinPositions.length) {
         const coin = gameScene_level2.coins.create(

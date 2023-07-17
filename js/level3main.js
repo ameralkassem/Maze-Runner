@@ -157,9 +157,6 @@ gameScene.create = function () {
   );
   this.physics.add.collider(this.triggerObject, layer);
 
-  //to create stars
-  this.createStars();
-
   this.physics.add.collider(this.stars, layer);
 
   // Set the time limit (in milliseconds)
@@ -304,7 +301,7 @@ gameScene.createStars = function () {
     { x: 330, y: 460 },
     { x: 420, y: 70 },
     { x: 630, y: 300 },
-    { x: 860, y: 170 },
+    { x: 890, y: 170 },
   ];
 
   starPositions.forEach((position) => {
