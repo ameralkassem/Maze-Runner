@@ -1,6 +1,6 @@
 let gameScene = new Phaser.Scene("level3");
 gameScene.score = 0;
-gameScene.lives = 3;
+gameScene.lives = 2;
 const data = JSON.parse(localStorage.getItem("playerData"));
 
 gameScene.preload = function () {
