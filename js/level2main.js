@@ -1,9 +1,7 @@
 let gameScene_level2 = new Phaser.Scene("Game");
 
 gameScene_level2.score = 0;
-let timeLimit = 90000;
-let timeText;
-let gameOverText;
+let index = 0; // Initialize index variable
 
 gameScene_level2.preload = function () {
     this.load.image("wall-image", "assets/images/maptaler.png");
@@ -48,34 +46,46 @@ gameScene_level2.create = function () {
             padding: 3
         });
 
-    timeText = this.add.text(200, 15, 'Time: ' + formatTime(timeLimit), {
-        fontSize: '32px',
-        fill: '#ffffff',
-        backgroundColor: '#000000'
-    });
+    // Set the time limit (in milliseconds)
+    const timeLimit = 60000; // 60 seconds
 
-    gameOverText = this.add.text(400, 350, '', {
-        fontSize: '72px',
-        fill: '#ff0000'
-    });
-
-
-    this.time.addEvent({
-        delay: 1000,
-        callback: function () {
-            timeLimit -= 1000;
-            if (timeLimit < 0) {
-                timeLimit = 0;
-            }
-            timeText.setText('Time: ' + formatTime(timeLimit));
-
-            if (timeLimit <= 0) {
-                gameOverText.setText('Game Over, NOOB!');
-            }
-        },
+    // Start the timer
+    const timer = this.time.addEvent({
+        delay: timeLimit,
+        callback: this.restartLevel,
         callbackScope: this,
-        loop: true
     });
+
+    // Display the timer text
+    this.timerText = this.add.text(
+        200,
+        10,
+        "Time Limit: " + formatTime(timeLimit),
+        {
+            fontSize: "32px",
+            fill: "#ffffff",
+            backgroundColor: "#000000",
+            padding: 3,
+        }
+    );
+
+    // Update the timer text every frame
+    this.updateTimer = () => {
+        const remainingTime = Math.max(timeLimit - timer.getElapsed(), 0);
+        this.timerText.setText("Time: " + formatTime(remainingTime));
+    };
+
+    function formatTime(milliseconds) {
+        const minutes = Math.floor(milliseconds / 60000);
+        const seconds = Math.floor((milliseconds % 60000) / 1000);
+
+        return (
+            minutes.toString().padStart(2, "0") +
+            ":" +
+            seconds.toString().padStart(2, "0")
+        );
+
+    }
 
     this.anims.create({
         key: "left",
@@ -124,14 +134,14 @@ gameScene_level2.createCoins = function () {
     this.coins = this.physics.add.group();
 
     const coinPositions = [
-        { x : 500, y: 20},
-        { x : 1200, y: 100},
-        { x : 500, y : 700},
-        { x : 500, y : 500 },
+        { x: 500, y: 20 },
+        { x: 1200, y: 100 },
+        { x: 500, y: 700 },
+        { x: 500, y: 500 },
         { x: 100, y: 320 },
         { x: 390, y: 220 },
-        { x: 630, y: 300 },
-        { x : 890, y: 600},
+        { x: 670, y: 300 },
+        { x: 890, y: 600 },
         { x: 890, y: 170 },
     ];
 
@@ -144,8 +154,42 @@ gameScene_level2.createCoins = function () {
 };
 
 
+// Restart the level
+gameScene_level2.restartLevel = function () {
+    const scene = gameScene_level2;
+
+    // freeze the player
+    scene.physics.pause();
+
+    // Restart level
+    const gameOverText = scene.add.text(
+        scene.cameras.main.centerX,
+        scene.cameras.main.centerY - 100,
+        "Time's up!",
+        {
+            font: 'bold 80px Arial',
+            fill: '#ff0000',
+            backgroundColor: '#00000',
+            padding: 15,
+        }
+    );
+
+    gameOverText.setOrigin(0.5); // Set the origin to the center of the text
+
+    // Restart the scene after a delay
+    scene.time.delayedCall(2000, function () {
+        gameScene_level2.score = 0;
+        scene.scene.restart();
+    });
+};
+
+
 
 gameScene_level2.update = function () {
+    // Call the updateTimer function every frame
+    this.updateTimer();
+
+
     if (this.cursors.left.isDown) {
         this.player.setVelocityX(-200);
         if (this.player.body.onFloor()) {
@@ -178,7 +222,7 @@ gameScene_level2.update = function () {
 
 
     gameScene_level2.collectCoin = function (player, coin) {
-        let coin_arr = [{x : 500, y : 100}]
+        let coin_arr = [{ x: 500, y: 100 }]
         this.sound.play("coinSound");
         this.score += 1;
         this.scoreText.setText("Score: " + this.score);
