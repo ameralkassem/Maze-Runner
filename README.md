@@ -29,11 +29,11 @@ In Level 2, the challenge becomes different. You must collect all coins througho
 
 ### Level 3
 
-In Level 3, a new obstacle awaits you. There an enemie patrolling the maze, and you must stay away from him to avoid getting caught. Your main objective is still to reach the cup, but don't forget the timer. Along the way, collect the coins to increase your score.
+In Level 3, you have only three lifes to reach your cup whit new obstacle to stop you. There an enemie patrolling the maze, and you must stay away from him to avoid getting caught. Your main objective is still to reach the cup, but don't forget the timer. Along the way, collect the coins to increase your score.
 
 ### Level 4
 
-The maze become more complex and challenging, filled with enemies, and there's a strict timer counting down. You must race against time while avoiding the enemies and collecting coins to unlock the path to the cup. Are you up for the challenge?
+The maze become more complex and challenging, filled with enemies, and there's a strict timer counting down and trying to keep you three lives. You must race against time while avoiding the enemies and collecting coins to unlock the path to the cup. Are you up for the challenge?
 
 
 Good luck, and may the best maze solver win!
