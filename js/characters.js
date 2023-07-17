@@ -1,6 +1,11 @@
 const Boy_character = document.querySelector(".boy-character");
 const Girl_character = document.querySelector(".girl-character");
 const Mario_character = document.querySelector(".mario-character");
+const start_button = document.getElementById("lets-play");
+
+start_button.addEventListener("click", () => {
+  window.location.href = "level1index.html";
+});
 
 Boy_character.addEventListener("click", () => {
   const Selected_class = document.getElementsByClassName("selected");
