@@ -6,7 +6,7 @@ Welcome to the Maze Game! Navigate through the maze and reach the goal in each l
 
 - To play the game, simply open the index.html file in your web browser.
 - Input you information (name,email)
-- Choose your favorit charater
+- Choose your favorit character
 - let's Start
 
 ## How to Play
