@@ -10,9 +10,21 @@ gameScene_level2.preload = function () {
   this.load.audio("coinSound", "assets/sounds/collect-star.mp3");
   this.load.image("player", `assets/images/frontsprite.png`);
   this.load.image("cup", "assets/images/cup.png");
-  this.load.spritesheet("gamepieces", "assets/images/allsprite.png", {
-    frameWidth: 60,
-    frameHeight: 65,
+  this.load.spritesheet("gamepieces", `assets/images/${data.image}`, {
+    frameWidth: data.frameWidth,
+    frameHeight: data.frameHeight,
+  });
+  this.load.spritesheet("leftPieces", `assets/images/${data.image}`, {
+    frameWidth: data.left.frameWidth,
+    frameHeight: data.left.frameHeight,
+  }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+  this.load.spritesheet("RightPieces", `assets/images/${data.right.image}`, {
+    frameWidth: data.right.frameWidth,
+    frameHeight: data.right.frameHeight,
+  }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
+  this.load.spritesheet("UPPieces", `assets/images/${data.up.image}`, {
+    frameWidth: data.up.frameWidth,
+    frameHeight: data.up.frameHeight,
   });
 
   this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level2.json");
