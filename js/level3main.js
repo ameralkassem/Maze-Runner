@@ -1,6 +1,7 @@
 let gameScene = new Phaser.Scene("level3");
 gameScene.score = 0;
 gameScene.lives = 3;
+const data = JSON.parse(localStorage.getItem("playerData"));
 
 gameScene.preload = function () {
   // the below code is to load the images of the game
@@ -158,7 +159,6 @@ gameScene.create = function () {
 
   //to create stars
   this.createStars();
-
 
   this.physics.add.collider(this.stars, layer);
 
