@@ -8,6 +8,7 @@ gameScene_level2.preload = function () {
   this.load.image("wall-image", "assets/images/maptaler.png");
   this.load.image("coin", "assets/images/star.png");
   this.load.audio("coinSound", "assets/sounds/collect-star.mp3");
+  this.load.audio("countdown", "assets/sounds/countdown.mp3")
   this.load.image("player", `assets/images/frontsprite.png`);
   this.load.image("cup", "assets/images/cup.png");
   this.load.spritesheet("gamepieces", `assets/images/${data.image}`, {
