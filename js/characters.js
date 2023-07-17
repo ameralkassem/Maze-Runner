@@ -1,22 +1,21 @@
-const BoyCharacter = document.querySelector(".boy-character");
-const GirlCharacter = document.querySelector(".girl-character");
-const MarioCharacter = document.querySelector(".mario-character");
-const SelectedClass = document.querySelectorAll(".selected");
+const Boy_character = document.querySelector(".boy-character");
+const Girl_character = document.querySelector(".girl-character");
+const Mario_character = document.querySelector(".mario-character");
 
-BoyCharacter.addEventListener("click", () => {
-  const SelectedClass = document.getElementsByClassName("selected");
+Boy_character.addEventListener("click", () => {
+  const Selected_class = document.getElementsByClassName("selected");
 
-  if (SelectedClass.length > 0) {
-    for (i = 0; i < SelectedClass.length; i++) {
-      if (SelectedClass[i].classList.contains("selected")) {
-        SelectedClass[i].classList.remove("selected");
+  if (Selected_class.length > 0) {
+    for (i = 0; i < Selected_class.length; i++) {
+      if (Selected_class[i].classList.contains("selected")) {
+        Selected_class[i].classList.remove("selected");
       }
     }
   }
-  if (!BoyCharacter.classList.contains("selected")) {
-    BoyCharacter.classList.add("selected");
+  if (!Boy_character.classList.contains("selected")) {
+    Boy_character.classList.add("selected");
   } else {
-    BoyCharacter.classList.remove("selected");
+    Boy_character.classList.remove("selected");
   }
   localStorage.clear();
   const boydata = {
@@ -54,23 +53,21 @@ BoyCharacter.addEventListener("click", () => {
   localStorage.setItem("playerData", ConvertData);
 });
 
-GirlCharacter.addEventListener("click", () => {
-  const SelectedClass = document.getElementsByClassName("selected");
+Girl_character.addEventListener("click", () => {
+  const Selected_class = document.getElementsByClassName("selected");
 
-  console.log(SelectedClass.length);
-
-  if (SelectedClass.length > 0) {
-    for (i = 0; i < SelectedClass.length; i++) {
-      if (SelectedClass[i].classList.contains("selected")) {
-        SelectedClass[i].classList.remove("selected");
+  if (Selected_class.length > 0) {
+    for (i = 0; i < Selected_class.length; i++) {
+      if (Selected_class[i].classList.contains("selected")) {
+        Selected_class[i].classList.remove("selected");
       }
     }
   }
 
-  if (!GirlCharater.classList.contains("selected")) {
-    GirlCharater.classList.add("selected");
+  if (!Girl_character.classList.contains("selected")) {
+    Girl_character.classList.add("selected");
   } else {
-    GirlCharater.classList.remove("selected");
+    Girl_character.classList.remove("selected");
   }
   localStorage.clear();
 
@@ -108,20 +105,20 @@ GirlCharacter.addEventListener("click", () => {
   localStorage.setItem("playerData", ConvertData);
 });
 
-MarioCharacter.addEventListener("click", () => {
-  const SelectedClass = document.getElementsByClassName("selected");
+Mario_character.addEventListener("click", () => {
+  const Selected_class = document.getElementsByClassName("selected");
 
-  if (SelectedClass.length > 0) {
-    for (i = 0; i < SelectedClass.length; i++) {
-      if (SelectedClass[i].classList.contains("selected")) {
-        SelectedClass[i].classList.remove("selected");
+  if (Selected_class.length > 0) {
+    for (i = 0; i < Selected_class.length; i++) {
+      if (Selected_class[i].classList.contains("selected")) {
+        Selected_class[i].classList.remove("selected");
       }
     }
   }
-  if (!MarioCharater.classList.contains("selected")) {
-    MarioCharater.classList.add("selected");
+  if (!Mario_character.classList.contains("selected")) {
+    Mario_character.classList.add("selected");
   } else {
-    MarioCharater.classList.remove("selected");
+    Mario_character.classList.remove("selected");
   }
   localStorage.clear();
 
