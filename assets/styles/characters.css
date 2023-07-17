@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+}
+
+
+.characters-page1 {
+    background-image: url("/assets/images/background.jpg");
+    min-height: 100vh;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    background-color: white;
+    border-radius: 20px;
+}
+
+#lets-play {
+    width: 200px;
+    font-size: 26px;
+    margin-top: 80px;
+    border-radius: 20px;
+}
+
+#lets-play:hover {
+    background-color: rgba(255, 0, 0, 0.742);
+    border-radius: 20px;
+    transform: scale(1.2);
+
+}
+
+.characters-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    font-size: 40px;
+    padding: 30px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.422);
+    color: rgb(255, 255, 255);
+    font-weight: 800;
+}
+
+.characters-image {
+    width: 350px;
+    height: 450px;
+}
+
+button {
+    padding: 10px;
+    margin-top: 30px;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: rgba(124, 123, 123, 0.84);
+}
