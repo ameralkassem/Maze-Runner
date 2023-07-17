@@ -6,7 +6,7 @@ Welcome to the Maze Game! Navigate through the maze and reach the goal in each l
 
 - To play the game, simply open the index.html file in your web browser.
 - Input you information (name,email)
-- Choose your favorit character
+- Choose your favorite character
 - let's Start
 
 ## How to Play
@@ -29,7 +29,7 @@ In Level 2, the challenge becomes different. You must collect all coins througho
 
 ### Level 3
 
-In Level 3, you have only three lifes to reach your cup whit new obstacle to stop you. There an enemie patrolling the maze, and you must stay away from him to avoid getting caught. Your main objective is still to reach the cup, but don't forget the timer. Along the way, collect the coins to increase your score.
+In Level 3, you have only three lives to reach your cup with new obstacle to stop you. There an enemy patrolling the maze, and you must stay away from him to avoid getting caught. Your main objective is still to reach the cup, but don't forget the timer. Along the way, collect the coins to increase your score.
 
 ### Level 4
 
