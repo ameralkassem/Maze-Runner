@@ -70,8 +70,6 @@ GirlCharater.addEventListener("click", () => {
     GirlCharater.classList.remove("selected");
   }
   localStorage.clear();
-  //   GirlCharater.classList.toggle("selected");
-  //   selectGirl.innerHTML = "Seleted";
 
   const girldata = {
     right: {
@@ -119,8 +117,6 @@ MarioCharater.addEventListener("click", () => {
     MarioCharater.classList.remove("selected");
   }
   localStorage.clear();
-  //   MarioCharater.classList.toggle("selected");
-  //   selectMario.innerHTML = "Seleted";
 
   const mariodata = {
     right: {

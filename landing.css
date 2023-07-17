@@ -65,26 +65,18 @@ html {
     align-items: center;
 }
 
-.start-game-btn
-{
-    margin-top: 35%;
-    height: 80px;
-    width: 240px;
-    
-    padding: 10px 20px;
-    font-size: 1.5rem;
-    background-color: #3498db; 
-    color: #fff;
+#start-game-btn{
+    padding: 20px;
+    margin-top: 30px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
-    transition: background-color 0.3s ease;
-}
+    font-size: 20px;
+    cursor: none;
+    background-color: gray;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    }
 
-.start-game-btn:hover{
-    background-color: #2980b9;
-}
 
 .hero-section{
     align-items: center;
@@ -143,16 +135,7 @@ label{
     opacity: 0.5;
     font-size: 20px;
 }
-button{
-    padding: 10px;
-    margin-top: 30px;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-button:hover{
-    background-color: #b4b2b2;
-}
+
 .parallax-3 {
     background-image: url("images/pexels-tom-fisk-1904198.jpg");
     min-height: 100vh;

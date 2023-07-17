@@ -1,14 +1,16 @@
+* {
+    box-sizing: border-box;
+}
 
 
 .characters-page1{
-    background-image: url("images/maze-2.jpg");
+    background-image: url("images/background.jpg");
     min-height: 100vh;
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     padding: 20px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,22 +19,19 @@
 
 .card{
     background-color: white ;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
-.card button:hover{
-    background-color:  #3498db;
-    border-radius: 10px;
-    transform: scale(1.2);
-}
 #lets-play{
     width: 200px;
     font-size: 26px;
+    margin-top: 80px;
+        border-radius: 20px;
 }
 
 #lets-play:hover{
-    background-color:  #3498db;
-    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.742);
+        border-radius: 20px;
     transform: scale(1.2);
 
 }
@@ -41,7 +40,6 @@
     align-items: center;
     justify-content: center;
     gap: 80px;
-    padding: 50px;
 }
 
 .card {
@@ -51,14 +49,16 @@
     align-items: center;
     gap: 40px;
     font-size: 40px;
-    border: 1px solid black;
-    padding: 70px;
+    padding: 30px;
     cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.422);
+        color: rgb(255, 255, 255);
+        font-weight: 800;
 }
 
 .characters-image {
-    width: 300px;
-    height: 300px;
+    width: 350px;
+        height: 450px;
 }
 
 button {
@@ -70,5 +70,5 @@ button {
 }
 
 .selected {
-    background-color: rgb(91, 226, 163);
+    background-color: rgba(124, 123, 123, 0.84);
 }
