@@ -2,16 +2,28 @@
 let gameScene = new Phaser.Scene("level1");
 gameScene.score = 0;
 
+// const data = JSON.parse(localStorage.getItem("playerData"))
+
 gameScene.preload = function () {
   // the below code is to load the images
   this.load.image("myTileset-image", "assets/images/maptaler.png");
   this.load.image("star", "assets/images/star.png");
-  this.load.image("player", "assets/images/frontsprite.png");
+  this.load.image("player", "assets/images/frontsprite.png"); //data.palyer.image
   this.load.audio("collectSound", "assets/sounds/collect-star.mp3");
   this.load.spritesheet("gamePiece", "assets/images/allsprite.png", {
     frameWidth: 60,
     frameHeight: 65,
-  });
+  }); //data.image , data.frameWidth , data.farmeHeight
+
+  // this.load.spritesheet("gamePiece-left", "assets/images/allsprite.png", {
+  //   frameWidth: 60,
+  //   frameHeight: 65,
+  // }); //data.left.image , data.left.frameWidth , data.left.farmeHeight
+
+  // this.load.spritesheet("gamePiece-right", "assets/images/allsprite.png", {
+  //   frameWidth: 60,
+  //   frameHeight: 65,
+  // }); //data.right.image , data.right.frameWidth , data.right.farmeHeight
 
   // the below code is to load the map
   this.load.tilemapTiledJSON("wallmap", "assets/map/gameScene_level1.json");
@@ -34,13 +46,12 @@ gameScene.create = function () {
   // Disable gravity for falling
   this.player.body.gravity.y = 0;
   this.physics.add.collider(this.player, layer);
-  gameScene.scoreText = this.add.text(16, 15, 'Score: 0',
-    {
-      fontSize: '32px',
-      fill: '#ffffff',
-      backgroundColor: '#000000',
-      padding: 3
-    });
+  gameScene.scoreText = this.add.text(16, 15, "Score: 0", {
+    fontSize: "32px",
+    fill: "#ffffff",
+    backgroundColor: "#000000",
+    padding: 3,
+  });
 
   // the below code is to set the movement of the sprite
   this.anims.create({
@@ -48,7 +59,7 @@ gameScene.create = function () {
     frames: this.anims.generateFrameNumbers("gamePiece", {
       start: 7,
       end: 4,
-    }),
+    }), //gamePieces-left , data.left.leftAnims.start , data.left.leftAnims.end
     frameRate: 10,
     repeat: -1,
   });
@@ -58,7 +69,7 @@ gameScene.create = function () {
     frames: this.anims.generateFrameNumbers("gamePiece", {
       start: 8,
       end: 11,
-    }),
+    }), //gamePieces-right , data.right.rightAnims.start , data.right.rightAnims.end
     frameRate: 10,
     repeat: -1,
   });
@@ -66,8 +77,8 @@ gameScene.create = function () {
   this.anims.create({
     key: "stop",
     frames: this.anims.generateFrameNumbers("gamePiece", {
-      start: 0,
-      end: 0,
+      start: 0, //data.stopAnims.start
+      end: 0, //data.stopAnims.end
     }),
     frameRate: 10,
     repeat: -1,
@@ -77,7 +88,6 @@ gameScene.create = function () {
 
   // set the jump force of the sprite
   this.jumpForce = 300;
-
 
   // setting a trigger so whenever the sprite touch the cup it moves to another map
   this.triggerObject = this.physics.add.sprite(1000, 400, "cup");
@@ -89,15 +99,19 @@ gameScene.create = function () {
   this.triggerObject.setDisplaySize(130, 130);
 
   // Add collision between the trigger object and the map layer
-  this.physics.add.collider(this.player, this.triggerObject, this.nextLevel, null, this);
+  this.physics.add.collider(
+    this.player,
+    this.triggerObject,
+    this.nextLevel,
+    null,
+    this
+  );
   this.physics.add.collider(this.triggerObject, layer);
 
   this.createStars(); // Create the stars
 
   // Add collision between the stars and the map layer
   this.physics.add.collider(this.stars, layer);
-
-
 
   // Set the time limit (in milliseconds)
   const timeLimit = 60000; // 60 seconds
@@ -127,7 +141,6 @@ gameScene.create = function () {
     const remainingTime = Math.max(timeLimit - timer.getElapsed(), 0);
     this.timerText.setText("Time: " + formatTime(remainingTime));
   };
-
 };
 
 gameScene.createStars = function () {
@@ -170,6 +183,8 @@ gameScene.update = function (time, delta) {
     }
   } else {
     this.player.setVelocityX(0);
+      // this.player.play("stop", true);
+
   }
 
   // Jump control
@@ -182,6 +197,7 @@ gameScene.update = function (time, delta) {
   if (this.cursors.up.isUp && this.isJumping) {
     if (this.player.body.velocity.y < -50) {
       this.player.setVelocityY(-50);
+
     }
     this.isJumping = false;
   }
