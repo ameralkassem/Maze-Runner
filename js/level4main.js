@@ -509,7 +509,9 @@ gameScene.onOverlap = function (enemy, player) {
 };
 gameScene.nextLevel = function () {
 
-  window.location.href = "../congratnoob.html";
+  if (gameScene.score == 11) {
+    window.location.href = "../congratnoob.html";
+  }
 
 };
 let config = {
